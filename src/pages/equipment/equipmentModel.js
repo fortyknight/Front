@@ -3,6 +3,7 @@ import { withRouter } from 'umi';
 import React, { useState, useEffect } from 'react';
 import { Input, Row, Col, Button, Drawer } from 'antd';
 import EquipmentList from "./equipmentList";
+import AddEquipment from "./addEquipment";
 import EquipmentExample from "./equipmentExample";
 const { Search } = Input;
 
@@ -31,25 +32,8 @@ const EquipmentModel = ()=>{
            </Col>
         
          </Row>
-         <div style={{marginTop:'10px'}}>         <Button type="primary" onClick={showDrawer}>
-         新建
-       </Button></div>
 
-       <Drawer title="新建设备" placement="right" onClose={onClose} open={open}>
-       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' ,whiteSpace: 'nowrap'}}>
-    <span style={{ marginRight: '20px', fontWeight: 'bold' }}>设备ID：</span>
-    <Input placeholder="设备ID" variant="filled"  style={{ borderColor: 'black' }} />
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' ,whiteSpace: 'nowrap'}}>
-    <span style={{ marginRight: '8px', fontWeight: 'bold' }}>设备名称：</span>
-    <Input placeholder="设备名称" variant="filled"  style={{ borderColor: 'black' }} />
-  </div>
-  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' ,whiteSpace: 'nowrap'}}>
-    <span style={{ marginRight: '8px', fontWeight: 'bold' }}>设备类型：</span>
-    <Input placeholder="设备类型" variant="filled"  style={{ borderColor: 'black' }} />
-  </div>
-
-       </Drawer>
+       <AddEquipment></AddEquipment>
        <div style={{marginTop:'20px'}}><EquipmentList/></div>
                </div>
  

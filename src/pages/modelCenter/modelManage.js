@@ -71,7 +71,7 @@ const ModelManage = () => {
                     </Col>
                     <Col>
                         <Button style={{ float: 'right' }} type="text" icon={<RedoOutlined />}></Button>
-                        数量：3
+                        数量：2
                     </Col>
                     <Col>
                         <Button type="primary" onClick={showDrawer} icon={<PlusOutlined />}>
@@ -88,7 +88,7 @@ const ModelManage = () => {
 
                 <Row gutter={16}>
                     <Col span={8}>
-                        <Card title="aaaa" bordered={false} extra={<a href="#">More</a>}
+                        <Card title="mlpclassifier" bordered={false} extra={<a href="#">More</a>}
                             cover={
                                 <img
                                   alt="example"
@@ -103,14 +103,12 @@ const ModelManage = () => {
                                 <EllipsisOutlined key="ellipsis" />,
                             ]}>
                             <Meta
-                                avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />}
-                                title="Mike"
                                 description="This is the description"
                             />
                         </Card>
                     </Col>
                     <Col span={8}>
-                        <Card title="bbbb" bordered={false} extra={<a href="#">More</a>}
+                        <Card title="KNN" bordered={false} extra={<a href="#">More</a>}
                             cover={
                                 <img
                                   alt="example"
@@ -125,30 +123,6 @@ const ModelManage = () => {
                                 <EllipsisOutlined key="ellipsis" />,
                             ]}>
                             <Meta
-                                avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=2" />}
-                                title="John"
-                                description="This is the description"
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="cccc" bordered={false} extra={<a href="#">More</a>}
-                            cover={
-                                <img
-                                  alt="example"
-                                  src="https://th.bing.com/th/id/R.4ac6f8ef8ed830b3136954a6b87456fe?rik=alV3Gz5dMgfXfA&pid=ImgRaw&r=0"
-                                  width= "auto" /* 设置宽度为200像素 */
-                                  height= "300px" /* 让高度按比例自动调整 */
-                                />
-                            }    
-                            actions={[
-                                <SettingOutlined key="setting" />,
-                                <EditOutlined key="edit" />,
-                                <EllipsisOutlined key="ellipsis" />,
-                            ]}>
-                            <Meta
-                                avatar={<Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=3" />}
-                                title="Tom"
                                 description="This is the description"
                             />
                         </Card>

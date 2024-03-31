@@ -1,6 +1,55 @@
 import { Space, Table, Tag } from 'antd';
 import { withRouter } from 'umi';
 import React from 'react';
+import  { useEffect, useState } from 'react';
+import axios from 'axios'
+
+const ExperimentList = () => {
+  const [data, setData] = useState([]);
+  const handleAction = async (record) => {
+  
+    try {
+      // 向后端发送请求以更改设备状态
+      const response = await axios.post('api/device/updateDeviceState', {
+        id: record.id,
+      });
+
+      if (response.status === 200) {
+        const updatedData = data.map(item => {
+          if (item.id === record.id&&item.tags[0]==='已发布') {
+            return {
+              ...item,
+              tags: ['未发布'] // 更新设备状态S
+            };
+          }else if(item.id === record.id&&item.tags[0]==='未发布'){
+            return {
+              ...item,
+              tags: ['已发布'] // 更新设备状态S
+            };
+          }
+          return item;
+        });
+        setData(updatedData);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+
+};
+const handleDelete = async (record) => {
+  
+  try {
+    // 向后端发送请求以更改设备状态
+    const response = await axios.post('api/device/deleteDeviceState', {
+      id: record.id,
+    });
+    const updatedData = data.filter((item) => item.id !== record.id); // 根据删除的设备ID过滤数据
+    setData(updatedData);
+  } catch (error) {
+    console.error(error);
+  }
+
+};
 const columns = [
   {
     title: 'ID',
@@ -49,39 +98,29 @@ const columns = [
     render: (_, record) => (
       <Space size="middle">
         <a>查看</a>
-        <a>删除</a>
-        <a>{record.tags[0]==='已发布'?'停用':'发布'}</a>
+        <a onClick={() => handleDelete(record)}>删除</a>
+        <a onClick={() => handleAction(record, record.tags[0])}>{record.tags[0]==='已发布'?'停用':'发布'}</a>
 
       </Space>
     ),
   },
 ];
-const data = [
-  {
-    key: '1',
-    id: 'smoke001',
-    name: '烟感001',
-    type: '设备',
-    time:'2020-03-0916:05:51',
-    tags: ['已发布'],
-  },
-  {
-    key: '2',
-    id: '1240193514658086912',
-    name: 'tcp-test',
-    type: '设备',
-    time:'2020-03-1916:18:03',
-    tags: ['未发布'],
-  },
-  {
-    key: '3',
-    id: 'smoke001',
-    name: '烟感001',
-    type: '设备',
-    time:'2020-03-0916:05:51',
-    tags: ['已发布'],
-  },
-];
-const ExperimentList = () => <Table  style={{minWidth:'300px',minHeight:'300px',boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}} columns={columns} dataSource={data} />;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get('/api/device'); // 根据你的后端 API 路由进行相应的修改
+      setData(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return <Table  style={{minWidth:'300px',minHeight:'300px',boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}} columns={columns} dataSource={data} />;
+}
+
 
 export default  withRouter(ExperimentList);

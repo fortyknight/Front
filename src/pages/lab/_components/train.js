@@ -34,7 +34,7 @@ const defaultData = [{
 
 const Train = ({ train: { labelName }, dispatch, location: { query: { datasetName } }}) => {
 
-  const frameworkTypes = ['mlpclassifier', 'KNN' ]  // first as default value
+  const frameworkTypes = ['knn','mlp','rn','lr','dtr' ]  // first as default value
   const distributedPolicieTypes = ['mcts', 'moea','nsgaii','rnsgaii']
 
   const dataRef = useRef();
@@ -384,7 +384,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
       pos_label: posValue,
       train_mode: mode, // 训练模式
 
-      experiment_engine: experimentEngine,
+      experiment_engine: 'HyperGBM',
       // holdout_percentage: data[2].count,  // 测试集比例
       // holdout_percentage: divisionNumber,  // 测试集比例
       datetime_series_col: dateValue // 日期列
@@ -572,16 +572,17 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
             </Select>
           </dd>
         </dl>
+
   </div>
   <div className={styles.modeWrapper}>
   <dl className={styles.mode} style={{ color: '#113D95',fontSize: '18px', }}>
-          <dt>{formatMessage({id: 'train.trainMode'})}
+          <dt>{'建模目标'}
             {makeToolTipFromMsgId('train.hintTrainMode')}
           </dt>
           <dd>
             <Radio.Group onChange={e => setMode(e.target.value)} value={mode}>
-              <Radio value='quick'>{formatMessage({id: 'train.quick'})}</Radio>
-              <Radio value='performance'>{formatMessage({id: 'train.performance'})}</Radio>
+              <Radio value='quick'>{'性能有限'}</Radio>
+              <Radio value='performance'>{'速度有限'}</Radio>
               {/*<Radio value='minimal'>{formatMessage({id: 'train.minimal'})}</Radio>*/}
             </Radio.Group>
           </dd>

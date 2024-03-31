@@ -20,7 +20,7 @@ export function _onCreate() {
     app.use(plugin);
   });
   
-  app.model({ namespace: 'dataset', ...(require('D:/Desktop/experiment/cooka/src/models/dataset.js').default) });
+  app.model({ namespace: 'dataset', ...(require('D:/vsWork/cooka/Front/src/models/dataset.js').default) });
   return app;
 }
 

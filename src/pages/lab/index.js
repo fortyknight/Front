@@ -91,14 +91,14 @@ const Lab = ({ dispatch, location: { query: { datasetName } }, train: { defaultT
     //   </Card>
     // </Form>
     <Layout>
-    <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)} 
-    style={{marginLeft:'-30px',marginTop:'-30px'}}>
+    <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value) } 
+    style={{marginLeft:'-30px',marginTop:'-30px',backgroundColor: '#EFF4F8'}}>
       <div className="logo" />
       <Menu
-        theme="dark"
         mode="inline"
         selectedKeys={[selectedKey]}
         onClick={({ key }) => handleMenuClick(key)}
+        style={{ backgroundColor: '#EFF4F8' }}
       >
         <Menu.Item key="a" icon={<FolderOutlined />} label="nav 1">
         {formatMessage({id: 'extra.preview'})}

@@ -8,7 +8,7 @@ import {
 import dynamic from 'umi/dynamic';
 import renderRoutes from 'umi/lib/renderRoutes';
 import history from '@@/history';
-import RendererWrapper0 from 'D:/Desktop/experiment/cooka/src/pages/.umi/LocaleWrapper.jsx';
+import RendererWrapper0 from 'D:/vsWork/cooka/Front/src/pages/.umi/LocaleWrapper.jsx';
 import { routerRedux, dynamic as _dvaDynamic } from 'dva';
 
 const Router = routerRedux.ConnectedRouter;
@@ -84,7 +84,7 @@ const routes = [
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/datasetList/models/datasetlist.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/datasetList/models/datasetlist.js').then(
                   m => {
                     return { namespace: 'datasetlist', ...m.default };
                   },
@@ -93,6 +93,39 @@ const routes = [
               component: () => import('../datasetList/index.js'),
             })
           : require('../datasetList/index.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/equipment/addData',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../equipment/addData.js'),
+            })
+          : require('../equipment/addData.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/equipment/addEquipment',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../equipment/addEquipment.js'),
+            })
+          : require('../equipment/addEquipment.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/equipment/addModel',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../equipment/addModel.js'),
+            })
+          : require('../equipment/addModel.js').default,
         _title: 'ices',
         _title_default: 'ices',
       },
@@ -158,7 +191,7 @@ const routes = [
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/importFile/models/importFile.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/importFile/models/importFile.js').then(
                   m => {
                     return { namespace: 'importFile', ...m.default };
                   },
@@ -188,12 +221,12 @@ const routes = [
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/lab/models/center.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/lab/models/center.js').then(
                   m => {
                     return { namespace: 'center', ...m.default };
                   },
                 ),
-                import('D:/Desktop/experiment/cooka/src/pages/lab/models/train.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/lab/models/train.js').then(
                   m => {
                     return { namespace: 'train', ...m.default };
                   },
@@ -245,7 +278,7 @@ const routes = [
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/uploadFile/models/uploadFile.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/uploadFile/models/uploadFile.js').then(
                   m => {
                     return { namespace: 'uploadFile', ...m.default };
                   },
@@ -260,7 +293,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('D:/Desktop/experiment/cooka/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('D:/vsWork/cooka/Front/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: false },
           ),
@@ -274,7 +307,7 @@ const routes = [
   {
     component: () =>
       React.createElement(
-        require('D:/Desktop/experiment/cooka/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+        require('D:/vsWork/cooka/Front/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
           .default,
         { pagesPath: 'src/pages', hasRoutesInConfig: false },
       ),
