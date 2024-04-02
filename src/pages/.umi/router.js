@@ -261,6 +261,17 @@ const routes = [
         _title_default: 'ices',
       },
       {
+        path: '/modelCenter/modelTrainDesign',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../modelCenter/modelTrainDesign.js'),
+            })
+          : require('../modelCenter/modelTrainDesign.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
         path: '/modelCenter/modelTrainList',
         exact: true,
         component: __IS_BROWSER

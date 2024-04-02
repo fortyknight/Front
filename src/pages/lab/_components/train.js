@@ -21,21 +21,21 @@ const defaultData = [{
   count: 80,
   color: 'rgba(49, 154, 228, 1)',
 }, {
-  name: `${formatMessage({id: 'extra.verifyUnion'})}`,
+  name: `${formatMessage({ id: 'extra.verifyUnion' })}`,
   // name: '验证集',
   count: 10,
   color: 'rgba(6, 194, 97, 1)',
 }, {
-  name: `${formatMessage({id: 'extra.testUnion'})}`,
+  name: `${formatMessage({ id: 'extra.testUnion' })}`,
   // name: '测试集',
   count: 10,
   color: 'rgba(225, 67, 68, 1)',
 }];
 
-const Train = ({ train: { labelName }, dispatch, location: { query: { datasetName } }}) => {
+const Train = ({ train: { labelName }, dispatch, location: { query: { datasetName } } }) => {
 
-  const frameworkTypes = ['knn','mlp','rn','lr','dtr' ]  // first as default value
-  const distributedPolicieTypes = ['mcts', 'moea','nsgaii','rnsgaii']
+  const frameworkTypes = ['mlpclassifier', 'KNN']  // first as default value
+  const distributedPolicieTypes = ['mcts', 'moea', 'nsgaii', 'rnsgaii']
 
   const dataRef = useRef();
 
@@ -44,7 +44,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
   const [posLabelValues, setPosLabelValues] = useState(null);  // 正样本选择数据
   const [labelType, setLabelType] = useState('');   // 标签的 type
   const [experimentEngine, setExperimentEngine] = useState(frameworkTypes[0]);   // 标签的 type
-  const [distributedPolicies,setDistributedPolicies] = useState(distributedPolicieTypes[0]);
+  const [distributedPolicies, setDistributedPolicies] = useState(distributedPolicieTypes[0]);
   const [target, setTarget] = useState(labelName);  // 选择的标签列名
   const [posValue, setPosValue] = useState('');
   const [taskType, setTaskType] = useState(''); // 是否是二分类模型
@@ -63,12 +63,12 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
   const datetimeColArr = features?.filter(feature => feature.type === 'datetime') || [];
 
   const partitionColArray = features?.filter(feature => {
-    if (feature.type === FeatureType.Categorical){
-      if (feature.extension.value_count.length === 3){
-        const labels = feature.extension.value_count.map( v => v.type);
+    if (feature.type === FeatureType.Categorical) {
+      if (feature.extension.value_count.length === 3) {
+        const labels = feature.extension.value_count.map(v => v.type);
         if (labels.indexOf(PartitionClass.Train) > -1
           && labels.indexOf(PartitionClass.Eval) > -1
-          && labels.indexOf(PartitionClass.Test) > -1){
+          && labels.indexOf(PartitionClass.Test) > -1) {
           return true
         }
       }
@@ -76,8 +76,8 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
     return false;
   }) || [];
 
-  const hasPartitionCols = partitionColArray.length > 0 ;
-  const hasDatetimeCols = datetimeColArr.length > 0 ;
+  const hasPartitionCols = partitionColArray.length > 0;
+  const hasDatetimeCols = datetimeColArr.length > 0;
 
   const [form] = Form.useForm();
 
@@ -87,14 +87,14 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
 
     getDataRetrieve(datasetName).then((originRes) => {
       // 检查code
-      if(originRes.code !== 0){
+      if (originRes.code !== 0) {
         showNotification('Response is: ' + JSON.stringify(originRes))
         return
       }
 
       // 检查特征
       const features = originRes.data.features;
-      if(features.length  <= 0){
+      if (features.length <= 0) {
         showNotification('Features of  ' + datasetName + " is empty")
         return
       }
@@ -164,16 +164,16 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
         setExperimentEngine(config.conf.engine);
         setPartitionStrategy(config.conf.partition_strategy);
 
-        if(config.conf.partition_strategy === PartitionStrategy.Manual){
+        if (config.conf.partition_strategy === PartitionStrategy.Manual) {
           setPartitionCol(config.conf.partition_col)
-        }else if(config.conf.partition_strategy === PartitionStrategy.TrainValidationHoldout){
+        } else if (config.conf.partition_strategy === PartitionStrategy.TrainValidationHoldout) {
           defaultData[0].count = config.conf.train_validation_holdout.train_percentage;
           defaultData[1].count = config.conf.train_validation_holdout.validation_percentage;
           defaultData[2].count = config.conf.train_validation_holdout.holdout_percentage;
           setSliderData(defaultData);
           // V 0.1.1 has no random state
           const random_state = config.conf.train_validation_holdout.random_state;
-          if( random_state !== undefined && random_state !== null){
+          if (random_state !== undefined && random_state !== null) {
             setRandomState(config.conf.train_validation_holdout.random_state);
           }
         }
@@ -237,7 +237,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
     <>
       <Radio.Group onChange={(e) => setPartitionStrategy(e.target.value)} value={partitionStrategy} style={{ marginTop: 12 }}>
         <Radio value={PartitionStrategy.TrainValidationHoldout}>
-          { formatMessage({ id: 'extra.testAndTrain' }) }
+          {formatMessage({ id: 'extra.testAndTrain' })}
         </Radio>
         {/*<Radio value='cross_validation' style={{ marginLeft: 50 }}>{formatMessage({ id: 'train.crossVerified' })}</Radio>*/}
         {/*{<Radio value={PartitionStrategy.Manual} style={{ marginLeft: 50 }}>*/}
@@ -281,7 +281,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
 
 
           <dl>
-            <dt>{formatMessage({id: 'train.testUnionPercentage'})}</dt>
+            <dt>{formatMessage({ id: 'train.testUnionPercentage' })}</dt>
           </dl>
           <Row>
             <Col span={12}>
@@ -311,23 +311,23 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
               <div className={styles.barWrapper}>
                 <div className={styles.cvdata} style={{ width: `${100 - testPercentage}%`, overflow: 'hidden' }}>
                   {
-                    Array.apply(null,{length: divisionNumber}).map((_, index) => {
+                    Array.apply(null, { length: divisionNumber }).map((_, index) => {
                       return (
-                        <span style={{ flex: 1, backgroundColor: '#0090DC', borderRight: '1px solid #fff' }}/>
+                        <span style={{ flex: 1, backgroundColor: '#0090DC', borderRight: '1px solid #fff' }} />
                       )
                     })
                   }
                 </div>
-                <div className={styles.testdata} style={{ flex: 1, width: `${testPercentage}%`, backgroundColor: '#E73B40'}}/>
+                <div className={styles.testdata} style={{ flex: 1, width: `${testPercentage}%`, backgroundColor: '#E73B40' }} />
               </div>
               <div className={styles.legend}>
                 <div className={styles.number}>
-                  <span className={styles.cvdataCir}/>
-                  <span className={styles.symbol}>{formatMessage({id: 'train.cvdata'})}</span>
+                  <span className={styles.cvdataCir} />
+                  <span className={styles.symbol}>{formatMessage({ id: 'train.cvdata' })}</span>
                 </div>
                 <div className={styles.type}>
-                  <span className={styles.testCir}/>
-                  <span className={styles.symbol}>{formatMessage({id: 'train.testUnion'})}</span>
+                  <span className={styles.testCir} />
+                  <span className={styles.symbol}>{formatMessage({ id: 'train.testUnion' })}</span>
                 </div>
               </div>
             </Col>
@@ -346,20 +346,20 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
         }
       </Select>
 
-  }else{
+    } else {
       return (
         <div>
           <dl>
-            <dt>{formatMessage({id: 'train.random_split.seed'})}</dt>
+            <dt>{formatMessage({ id: 'train.random_split.seed' })}</dt>
           </dl>
           <Row>
-              <InputNumber onChange={v => setRandomState(v)}  min={0} max={65535} value={randomState} style={{ width: 300 }} />
+            <InputNumber onChange={v => setRandomState(v)} min={0} max={65535} value={randomState} style={{ width: 300 }} />
           </Row>
           <dl>
-            <dt>{formatMessage({id: 'train.random_split.proportion'})}</dt>
+            <dt>{formatMessage({ id: 'train.random_split.proportion' })}</dt>
           </dl>
-          <Row style={{width: "90%"}}>
-            <CookaSlider dataRef={dataRef} sliderData={sliderData}/>
+          <Row style={{ width: "90%" }}>
+            <CookaSlider dataRef={dataRef} sliderData={sliderData} />
           </Row>
         </div>
       )
@@ -379,7 +379,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
   // 训练
   const handleTrain = () => {
 
-    let param =  {
+    let param = {
       label_col: target, // 标签列
       pos_label: posValue,
       train_mode: mode, // 训练模式
@@ -392,7 +392,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
     param['partition_strategy'] = partitionStrategy;  // 数据分配模式
     if (partitionStrategy === PartitionStrategy.CrossValidation) {
       // todo add holdout
-      param['cross_validation'] =  {
+      param['cross_validation'] = {
         n_folds: testPercentage,  // 分割数
         // holdout_percentage: data[2].count, todo add holdout_percentage to CV
       }
@@ -404,9 +404,9 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
         holdout_percentage: data[2].count,
         random_state: randomState,
       }
-    }else if (partitionStrategy === PartitionStrategy.Manual) {
+    } else if (partitionStrategy === PartitionStrategy.Manual) {
       param['partition_col'] = partitionCol;
-    }else{
+    } else {
       // Handle exception
       showNotification('Unseen partition strategy: ' + partitionStrategy);
       return
@@ -433,18 +433,18 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
   };
 
   const handleDatetimeSelectorPlaceholder = () => {
-    if(hasDatetimeCols){
-      return formatMessage({ id: 'train.datetimeColSelectorNoItem'})
-    }else{
-      return formatMessage({ id: 'train.select'})
+    if (hasDatetimeCols) {
+      return formatMessage({ id: 'train.datetimeColSelectorNoItem' })
+    } else {
+      return formatMessage({ id: 'train.select' })
     }
   }
 
   const handlePartitionColSelectorPlaceholder = () => {
-    if(hasPartitionCols){
-      return formatMessage({ id: 'train.partition.noPartitionCols'})
-    }else{
-      return formatMessage({ id: 'train.select'})
+    if (hasPartitionCols) {
+      return formatMessage({ id: 'train.partition.noPartitionCols' })
+    } else {
+      return formatMessage({ id: 'train.select' })
     }
   }
 
@@ -461,8 +461,8 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
     return <span style={{ color: '#c4c4c4', marginLeft: 2 }}>{content}</span>
   }
 
-   return (
-    <Form form={form} style={{backgroundColor:'#FAFAFA',maxWidth:'900px'}}>
+  return (
+    <Form form={form} style={{ backgroundColor: '#FAFAFA', maxWidth: '900px' }}>
       {/*<div className={styles.basic}>*/}
 
         <dl  style={{marginLeft:'30px',paddingTop:'20px'}}>
@@ -600,25 +600,150 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
         </dl>
         <Card title={analysisTitle} style={{ width: '60%',marginLeft:'30px',paddingTop:'10px'}}>
           <div>
-            {getAnalysisContent()}
+            {makeBody(formatMessage({ id: 'train.hintTarget' }))}
           </div>
-        </Card>
-        <dl style={{marginLeft:'30px',paddingTop:'10px'}}>
-          <dt style={{ color: '#113D95',fontSize: '18px', }}>{formatMessage({ id: 'train.datetimeCol' })}
-            {makeToolTipFromMsgId('train.hintDatetimeSeriesFeature')}
-          </dt>
-          <dd>
-            <Select placeholder={handleDatetimeSelectorPlaceholder()} style={{ width: 300 }} disabled={!hasDatetimeCols} onChange={setDateValue}>
+          <span>
+            <Select value={target} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300, marginBottom: 20 }} onChange={handleLabelChange}>
               {
-                  datetimeColArr.map((item, index) => {
+                labelColArr && labelColArr.map(label => {
                   return (
-                    <Option value={item.name} key={index}>{item.name}</Option>
+                    <Option value={label.name}>{label.name}</Option>
                   )
                 })
               }
             </Select>
-          </dd>
-        </dl>
+          </span>
+          <Button type="primary" style={{ marginLeft: 10 }} onClick={handleTrain}>{formatMessage({ id: 'train.train' })}</Button>
+        </dd>
+        {
+          labelTipVisible ? (
+            <div className={styles.labelTip} style={{ marginTop: -20 }}>{formatMessage({ id: 'train.labelNotEmpty' })}</div>
+          ) : null
+        }
+      </dl>
+      <dl style={{ marginLeft: '30px', paddingTop: '0px' }}>
+        {
+          taskType.length !== 0 && (
+            <>
+              <dt style={{ color: '#113D95', fontSize: '18px', }}>
+                {formatMessage({ id: 'train.taskType' })}
+                {makeToolTipFromMsgId('train.hintTaskType')}
+              </dt>
+              <dd>
+                <span style={{ color: '#c4c4c4', marginLeft: 2 }}>  {formatMessage({ id: 'train.hintInferTaskType' }, { taskType: formatMessage({ id: taskTypeMessageId }) })}   </span>
+              </dd>
+            </>
+          )
+        }
+      </dl>
+      <dl style={{ marginLeft: '30px', paddingTop: '10px' }}>
+        <LabelChart labelType={labelType} labelData={labelData} style={{ width: 350 }} />
+      </dl>
+      {
+        taskType === 'binary_classification' && (
+          <dl className={styles.binary} style={{ marginLeft: '30px', paddingTop: '10px' }}>
+            <dt style={{ color: '#113D95', fontSize: '18px', }}>
+              {formatMessage({ id: 'train.normalSampleModal' })}
+              {makeToolTipFromMsgId('train.hintPositiveLabel')}
+            </dt>
+            <dd>
+              <Select value={posValue} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300 }} onChange={handlePosChange}>
+                {
+                  posLabelValues && posLabelValues.map((item, index) => {
+                    return (
+                      <Option value={item.type} key={index}>{item.type}</Option>
+                    )
+                  })
+                }
+              </Select>
+            </dd>
+            {
+              binaryTipVisible ? (
+                <div className={styles.labelTip}>{formatMessage({ id: 'train.posNotEmpty' })}</div>
+              ) : null
+            }
+          </dl>
+        )
+      }
+      <div className={styles.container} style={{ marginLeft: '30px', paddingTop: '10px' }}>
+        <div className={styles.modeWrapper}>
+          <dl className={styles.mode}>
+            <dt style={{ color: '#113D95', fontSize: '18px', }}>{formatMessage({ id: 'train.experimentEngine' })}
+              {makeToolTipFromMsgId('train.hintExperimentEngine')}
+            </dt>
+            <dd>
+              <Select value={experimentEngine} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300 }} onChange={v => { setExperimentEngine(v) }}>
+                {
+                  frameworkTypes.map(v => {
+                    return (
+                      <Option value={v} key={v}>{v}</Option>
+                    )
+                  })
+                }
+              </Select>
+            </dd>
+          </dl>
+        </div>
+        <div className={styles.modeWrapper}>
+          <dl className={styles.mode} >
+            <dt style={{ color: '#113D95', fontSize: '18px', }}>{formatMessage({ id: 'train.distributedPolicies' })}
+              {makeToolTipFromMsgId('train.hintDistributedPolicies')}
+            </dt>
+            <dd>
+              <Select value={distributedPolicies} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300 }} onChange={v => { setDistributedPolicies(v) }}>
+                {
+                  distributedPolicieTypes.map(v => {
+                    return (
+                      <Option value={v} key={v}>{v}</Option>
+                    )
+                  })
+                }
+              </Select>
+            </dd>
+          </dl>
+        </div>
+        <div className={styles.modeWrapper}>
+          <dl className={styles.mode} style={{ color: '#113D95', fontSize: '18px', }}>
+            <dt>{formatMessage({ id: 'train.trainMode' })}
+              {makeToolTipFromMsgId('train.hintTrainMode')}
+            </dt>
+            <dd>
+              <Radio.Group onChange={e => setMode(e.target.value)} value={mode}>
+                <Radio value='quick'>{formatMessage({ id: 'train.quick' })}</Radio>
+                <Radio value='performance'>{formatMessage({ id: 'train.performance' })}</Radio>
+                {/*<Radio value='minimal'>{formatMessage({id: 'train.minimal'})}</Radio>*/}
+              </Radio.Group>
+            </dd>
+          </dl>
+        </div>
+      </div>
+      <dl style={{ marginLeft: '30px', paddingTop: '10px' }}>
+        <dt style={{ color: '#113D95', fontSize: '18px', }}>
+          {formatMessage({ id: 'train.dataAllot' })}
+          {makeToolTipFromMsgId('train.partition.hint')}
+        </dt>
+      </dl>
+      <Card title={analysisTitle} style={{ width: '60%', marginLeft: '30px', paddingTop: '10px' }}>
+        <div>
+          {getAnalysisContent()}
+        </div>
+      </Card>
+      <dl style={{ marginLeft: '30px', paddingTop: '10px' }}>
+        <dt style={{ color: '#113D95', fontSize: '18px', }}>{formatMessage({ id: 'train.datetimeCol' })}
+          {makeToolTipFromMsgId('train.hintDatetimeSeriesFeature')}
+        </dt>
+        <dd>
+          <Select placeholder={handleDatetimeSelectorPlaceholder()} style={{ width: 300 }} disabled={!hasDatetimeCols} onChange={setDateValue}>
+            {
+              datetimeColArr.map((item, index) => {
+                return (
+                  <Option value={item.name} key={index}>{item.name}</Option>
+                )
+              })
+            }
+          </Select>
+        </dd>
+      </dl>
     </Form>
   )
 }
