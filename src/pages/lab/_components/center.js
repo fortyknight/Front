@@ -108,11 +108,11 @@ class Center extends React.Component {
     return (
       <Menu>
         <Menu.Item>
-             <span style={{ color: '#1890ff', cursor: 'pointer' }} onClick={() => {
-               this.viewLog(record.log_file_path);
-             }}>
-               {formatMessage({ id: 'center.log' })}
-             </span>
+          <span style={{ color: '#1890ff', cursor: 'pointer' }} onClick={() => {
+            this.viewLog(record.log_file_path);
+          }}>
+            {formatMessage({ id: 'center.log' })}
+          </span>
         </Menu.Item>
         <Menu.Item>
           <span style={{ color: '#1890ff', cursor: 'pointer' }} onClick={() => {
@@ -136,31 +136,31 @@ class Center extends React.Component {
       render: (_, record) => {
         if (record.status === 'running') {
           return (
-            <Spin indicator={antIcon}/>
+            <Spin indicator={antIcon} />
           );
         } else if (record.status === 'succeed') {
           return (
-            <CheckOutlined style={{ fontSize: 16, color: 'green'}} />
+            <CheckOutlined style={{ fontSize: 16, color: 'green' }} />
           )
         } else if (record.status === 'failed') {
           return (
-            <CloseOutlined style={{ fontSize: 16, color: 'red'}} />
+            <CloseOutlined style={{ fontSize: 16, color: 'red' }} />
           )
         }
       }
     },
     {
-      title: formatMessage({id: 'center.modal'}),
+      title: formatMessage({ id: 'center.modal' }),
       dataIndex: 'no_experiment',
       key: 'no_experiment'
     },
     {
-      title: formatMessage({id: 'center.titleEngine'}),
+      title: formatMessage({ id: 'center.titleEngine' }),
       dataIndex: 'engine',
       key: 'engine',
     },
     {
-      title: formatMessage({id: 'train.trainMode'}),
+      title: formatMessage({ id: 'train.trainMode' }),
       dataIndex: 'train_mode',
       key: 'train_mode',
       render: (val) => {
@@ -168,14 +168,14 @@ class Center extends React.Component {
       }
     },
     {
-      title: <>{formatMessage({id: 'center.target'})}{ makeToolTipFromMsgId('center.hintOptimizeMetric') } </>,
+      title: <>{formatMessage({ id: 'center.target' })}{makeToolTipFromMsgId('center.hintOptimizeMetric')} </>,
       dataIndex: 'score',
       key: 'score',
       render: (text, record, index) => {
         const val = record.score;
         if (val) {
           return (
-            <Tooltip placement="right" color={'white'} title={formatMessage({id: 'center.hintTargetCol'}, {targetCol: record.target_col})}>
+            <Tooltip placement="right" color={'white'} title={formatMessage({ id: 'center.hintTargetCol' }, { targetCol: record.target_col })}>
               <span>{val.toFixed(6)}({this.metricDisplayMapping[record.metric_name]})</span>
             </Tooltip>
           )
@@ -210,20 +210,20 @@ class Center extends React.Component {
       render: (val) => {
         if (val === 0) {
           return (
-            <span>{formatMessage({id: 'center.finished'})}</span>
+            <span>{formatMessage({ id: 'center.finished' })}</span>
           )
         } else if (val) {
           const sty = val > 3600 ? { color: 'red' } : {}
           return (
             <span style={sty}>{getDuration(val)}</span>
           )
-        }else{
+        } else {
           return <span>-</span>
         }
       }
     },
     {
-      title:  makeTableHeader('center.spend', 'center.hintElapsed'),
+      title: makeTableHeader('center.spend', 'center.hintElapsed'),
       dataIndex: 'escaped',
       key: 'escaped',
       render: (val) => {
@@ -275,7 +275,7 @@ class Center extends React.Component {
         border: '1px solid #e8e8e8',
       }}
     >
-      <Spin tip="Loading..."/>
+      <Spin tip="Loading..." />
     </div>
   );
 
@@ -330,8 +330,8 @@ class Center extends React.Component {
 }
 
 
-export default withRouter(connect(({train}) => (
-  {train}
+export default withRouter(connect(({ train }) => (
+  { train }
 ))(Center));
 
 // export default withRouter(Center);
