@@ -384,7 +384,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
       pos_label: posValue,
       train_mode: mode, // 训练模式
 
-      experiment_engine: experimentEngine,
+      experiment_engine: 'HyperGBM',
       // holdout_percentage: data[2].count,  // 测试集比例
       // holdout_percentage: divisionNumber,  // 测试集比例
       datetime_series_col: dateValue // 日期列
@@ -465,11 +465,140 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
     <Form form={form} style={{ backgroundColor: '#FAFAFA', maxWidth: '900px' }}>
       {/*<div className={styles.basic}>*/}
 
-      <dl style={{ marginLeft: '30px', paddingTop: '20px' }}>
-        <dt style={{ color: '#113D95', fontSize: '18px', }}>
-          <span>{formatMessage({ id: 'train.tagCol' })}</span>
-        </dt>
-        <dd>
+        <dl  style={{marginLeft:'30px',paddingTop:'20px'}}>
+          <dt style={{ color: '#113D95',fontSize: '18px', }}>
+            <span>{formatMessage({id: 'train.tagCol'})}</span>
+          </dt>
+          <dd>
+            <div>
+              {makeBody(formatMessage({id: 'train.hintTarget'}))}
+            </div>
+            <span>
+              <Select value={target} placeholder={formatMessage({id: 'train.select'})} style={{ width: 300, marginBottom: 20 }} onChange={handleLabelChange}>
+                {
+                  labelColArr && labelColArr.map(label => {
+                    return (
+                      <Option value={label.name}>{label.name}</Option>
+                    )
+                  })
+                }
+              </Select>
+            </span>
+            <Button type="primary" style={{ marginLeft: 10 }} onClick={handleTrain}>{formatMessage({id: 'train.train'})}</Button>
+          </dd>
+          {
+            labelTipVisible ? (
+              <div className={styles.labelTip} style={{ marginTop: -20 }}>{formatMessage({id: 'train.labelNotEmpty'})}</div>
+            ) : null
+          }
+        </dl>
+        <dl style={{marginLeft:'30px',paddingTop:'0px'}}>
+          {
+            taskType.length !== 0 && (
+              <>
+                <dt style={{ color: '#113D95',fontSize: '18px', }}>
+                  {formatMessage({ id: 'train.taskType'})}
+                  {makeToolTipFromMsgId('train.hintTaskType')}
+                </dt>
+                <dd>
+                  <span style={{ color: '#c4c4c4', marginLeft: 2 }}>  {formatMessage({id: 'train.hintInferTaskType'}, {taskType: formatMessage({id: taskTypeMessageId}) })}   </span>
+                </dd>
+              </>
+            )
+          }
+        </dl>
+        <dl style={{marginLeft:'30px',paddingTop:'10px'}}>
+          <LabelChart labelType={labelType} labelData={labelData} style={ {width: 350 }} />
+        </dl>
+        {
+          taskType === 'binary_classification' && (
+            <dl className={styles.binary} style={{marginLeft:'30px',paddingTop:'10px'}}>
+              <dt style={{ color: '#113D95',fontSize: '18px', }}>
+                {formatMessage({id: 'train.normalSampleModal'})}
+                {makeToolTipFromMsgId('train.hintPositiveLabel')}
+              </dt>
+              <dd>
+                <Select value={posValue} placeholder={formatMessage({ id: 'train.select'})} style={{ width: 300 }} onChange={handlePosChange}>
+                  {
+                    posLabelValues && posLabelValues.map((item, index) => {
+                      return (
+                        <Option value={item.type} key={index}>{item.type}</Option>
+                      )
+                    })
+                  }
+                </Select>
+              </dd>
+              {
+                binaryTipVisible ? (
+                  <div className={styles.labelTip}>{formatMessage({id: 'train.posNotEmpty'})}</div>
+                ) : null
+              }
+            </dl>
+          )
+        }
+        <div className={styles.container} style={{marginLeft:'30px',paddingTop:'10px'}}>
+  <div className={styles.modeWrapper}>
+  <dl className={styles.mode}>
+          <dt style={{ color: '#113D95',fontSize: '18px', }}>{formatMessage({id: 'train.experimentEngine'})}
+            {makeToolTipFromMsgId('train.hintExperimentEngine')}
+          </dt>
+          <dd>
+            <Select value={experimentEngine} placeholder={formatMessage({ id: 'train.select'})} style={{ width: 300 }} onChange={v => {setExperimentEngine(v)}}>
+              {
+                frameworkTypes.map(v => {
+                  return (
+                    <Option value={v} key={v}>{v}</Option>
+                  )
+                })
+              }
+            </Select>
+          </dd>
+        </dl>
+  </div>
+  <div className={styles.modeWrapper}>
+  <dl className={styles.mode} >
+          <dt  style={{ color: '#113D95',fontSize: '18px', }}>{formatMessage({id: 'train.distributedPolicies'})}
+            {makeToolTipFromMsgId('train.hintDistributedPolicies')}
+          </dt>
+          <dd>
+            <Select value={distributedPolicies} placeholder={formatMessage({ id: 'train.select'})} style={{ width: 300 }} onChange={v => {setDistributedPolicies(v)}}>
+              {
+                distributedPolicieTypes.map(v => {
+                  return (
+                    <Option value={v} key={v}>{v}</Option>
+                  )
+                })
+              }
+            </Select>
+          </dd>
+        </dl>
+
+  </div>
+  <div className={styles.modeWrapper}>
+  <dl className={styles.mode} style={{ color: '#113D95',fontSize: '18px', }}>
+          <dt>{'建模目标'}
+            {makeToolTipFromMsgId('train.hintTrainMode')}
+          </dt>
+          <dd>
+            <Radio.Group onChange={e => setMode(e.target.value)} value={mode}>
+              <Radio value='quick'>{'性能有限'}</Radio>
+              <Radio value='performance'>{'速度有限'}</Radio>
+              {/*<Radio value='minimal'>{formatMessage({id: 'train.minimal'})}</Radio>*/}
+            </Radio.Group>
+          </dd>
+        </dl>
+  </div>
+</div>
+
+
+
+        <dl style={{marginLeft:'30px',paddingTop:'10px'}}>
+          <dt style={{ color: '#113D95',fontSize: '18px', }}>
+            {formatMessage({id: 'train.dataAllot'})}
+            { makeToolTipFromMsgId('train.partition.hint') }
+          </dt>
+        </dl>
+        <Card title={analysisTitle} style={{ width: '60%',marginLeft:'30px',paddingTop:'10px'}}>
           <div>
             {makeBody(formatMessage({ id: 'train.hintTarget' }))}
           </div>

@@ -5,6 +5,8 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
+import Train from '../lab/_components/train'
+import lab from '../lab';
 
 import ModelTrainList from '../modelCenter/modelTrainList.js';
 import ModelTrainDesign from '../modelCenter/modelTrainDesign.js';
@@ -14,6 +16,7 @@ const items = [
         label: '实验设计',
         key: 'design',
         icon: <RadarChartOutlined />,
+// 添加组件属性来关联对应的组件
     },
     {
         label: '实验列表',
@@ -33,6 +36,10 @@ const ModelTrain = () => {
         console.log('click ', e);
         setCurrent(e.key);
     };
+    const getCurrentComponent = () => {
+        const menuItem = items.find(item => item.key === current);
+        return menuItem ? menuItem.component : null;
+    };
     return (
         <>
             <div style={{ marginLeft: '170px' }}>
@@ -46,6 +53,9 @@ const ModelTrain = () => {
                     {contentConfig[current]}
                 </Content>
             </div>
+            <Content>
+                {getCurrentComponent()}  
+            </Content>
         </>
     );
 };
