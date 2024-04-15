@@ -598,10 +598,11 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
             { makeToolTipFromMsgId('train.partition.hint') }
           </dt>
         </dl>
-        <Card title={analysisTitle} style={{ width: '60%',marginLeft:'30px',paddingTop:'10px'}}>
           <div>
             {makeBody(formatMessage({ id: 'train.hintTarget' }))}
           </div>
+          <dl>
+          <dd>
           <span>
             <Select value={target} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300, marginBottom: 20 }} onChange={handleLabelChange}>
               {
@@ -723,7 +724,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
           {makeToolTipFromMsgId('train.partition.hint')}
         </dt>
       </dl>
-      <Card title={analysisTitle} style={{ width: '60%', marginLeft: '30px', paddingTop: '10px' }}>
+      <Card title={analysisTitle} style={{ width: '80%', marginLeft: '30px', paddingTop: '10px' }}>
         <div>
           {getAnalysisContent()}
         </div>

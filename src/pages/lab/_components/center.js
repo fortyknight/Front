@@ -305,11 +305,11 @@ class Center extends React.Component {
                         />
                       }
                     </TabPane>
-                    <TabPane tab={formatMessage({ id: 'center.param' })} key="3">
+                    {/* <TabPane tab={formatMessage({ id: 'center.param' })} key="3">
                       <Params
                         modelName={record.name}
                       />
-                    </TabPane>
+                    </TabPane> */}
                   </Tabs>
                 );
               } else if (record.status === 'failed') {

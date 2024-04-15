@@ -125,8 +125,6 @@ const Performance = ({ modelName, location: { query: { datasetName } }, key }) =
     recall:'Recall',
     f1:'F1',
     accuracy:'Accuracy',
-    roc_auc:'AUC',
-    r2:'R2'
   }
 
   const formatChartData = (matrixData) => {

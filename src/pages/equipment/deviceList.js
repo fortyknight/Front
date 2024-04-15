@@ -9,26 +9,54 @@ import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, } from 'antd
 const DeviceList = () =>{
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
-  const showDrawer = async (record) => {
-    setOpen(true);
-    const response5 = axios.post('http://localhost:8001/postTrain');
-      const response6 = await axios.get('/api/internet/connect',{
-        params:{
-          host:record.address
-        }
-      });
-  };
+  const [form] = Form.useForm(); 
   const onClose = () => {
     setOpen(false);
     
   };
-  const onSubmit = () => {
-    setOpen(false);
-    setTimeout(() => {
-      alert('上传成功');
-    }, 1000); 
-    
+  const onSubmit = async (values) => {
+    try {
+       axios.post('http://localhost:8001/postTrain');
+
+      const response = await axios.get('/api/internet/connect', {
+        params: {
+          ...values,
+          host: storedRecord.address,
+        },
+      });
+
+      if (response.status === 200) {
+        setOpen(false);
+        setTimeout(() => {
+          alert('上传成功');
+        }, 1000);
+      } else {
+        alert('上传失败');
+      }
+    } catch (error) {
+      console.error('上传失败:', error);
+      alert('上传失败');
+    }
   };
+  const showDrawer = async (record) => {
+    sessionStorage.setItem('record', JSON.stringify(record));
+    setOpen(true);
+
+  };
+  const deleteInternet = async (record) => {
+    try {
+      // 向后端发送请求以更改设备状态
+      const response = await axios.post('api/device/deleteDeviceState', {
+        id: record.id,
+      });
+      const updatedData = data.filter((item) => item.id !== record.id); // 根据删除的设备ID过滤数据
+      setData(updatedData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  const storedRecord = JSON.parse(sessionStorage.getItem('record'));
+
   const handleConnect = async (record) => {
     try {
       // 向后端发送请求以更改设备状态
@@ -158,7 +186,7 @@ if (tag === '未启用') {
   }
 }}>断连</a>
           <a  onClick={()=>{if(record.tags[0] === '在线'){showDrawer(record)}else{alert('请先连接')}}} >模型下发</a>
-          <a>删除</a>
+            <a onClick={()=>{deleteInternet(record)}} > 删除</a>
   
         </Space>
       ),
@@ -192,14 +220,13 @@ if (tag === '未启用') {
         extra={
           <Space>
             <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={onSubmit} type="primary">
+            <Button onClick={() => form.submit()} type="primary">
               Submit
             </Button>
           </Space>
         }
       >
-        <Form layout="vertical" >
-
+        <Form layout="vertical" onFinish={onSubmit} form={form}>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
@@ -208,16 +235,16 @@ if (tag === '未启用') {
                 rules={[
                   {
                     required: true,
-                    message: 'Please select an owner',
+                    message: 'Please select a model',
                   },
                 ]}
               >
                 <Select placeholder="Please select a model">
-                  <Option value="xiao">knn</Option>
-                  <Option value="mao">mlp</Option>
-                  <Option value="xiao">rn</Option>
-                  <Option value="mao">lr</Option>
-                  <Option value="xiao">dtr</Option>
+                  <Option value="knn">knn</Option>
+                  <Option value="mlp">mlp</Option>
+                  <Option value="rn">rn</Option>
+                  <Option value="lr">lr</Option>
+                  <Option value="dtr">dtr</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -233,10 +260,9 @@ if (tag === '未启用') {
                 ]}
               >
                 <Select placeholder="Please choose the type">
-                  <Option value="private">mcts</Option>
-                  <Option value="public">moea</Option>
-                  <Option value="private">nsgaii</Option>
-                  <Option value="public">nsgaii</Option>
+                  <Option value="MCTS">MCTS</Option>
+                  <Option value="MOEA">MOEA</Option>
+                  <Option value="NSGAII">NSGAII</Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -254,14 +280,15 @@ if (tag === '未启用') {
                 ]}
               >
                 <Select placeholder="Please choose the approver">
-                  <Option value="jack">性能有限</Option>
-                  <Option value="tom">速度有限</Option>
+                  <Option value="performance">性能有限</Option>
+                  <Option value="speed">速度有限</Option>
                 </Select>
               </Form.Item>
             </Col>
           </Row>
         </Form>
       </Drawer>
+
     </div>
   ;
 } 
