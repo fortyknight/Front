@@ -27,7 +27,8 @@ import {
   VideoCameraOutlined,
   BarsOutlined,
   ControlOutlined,
-  FolderOutlined
+  FolderOutlined,
+  TruckOutlined
 } from '@ant-design/icons';
 import { Layout } from 'antd';
 import EquipmentModel from '../equipment/equipmentModel';
@@ -65,6 +66,7 @@ const DatasetList = () => {
     f: (<EquipmentGateway />),
     d: (<ModelManage />),
     g: (<ModelTrain />),
+    p: (<ModelTrain/ >)
   }
   const getNamePopoverContent = (record) => {
     const source_type_content = record.source_type === 'upload' ? `${formatMessage({ id: 'datasetlist.uploadFile' })}` : `${formatMessage({ id: 'datasetlist.systemImport' })}`
@@ -337,6 +339,10 @@ const DatasetList = () => {
             <Menu.Item key="d" style={{ backgroundColor: '#EFF4F8', }}>模型管理</Menu.Item>
             <Menu.Item key="g" style={{ backgroundColor: '#EFF4F8' }}>模型训练</Menu.Item>
           </SubMenu>
+
+          <Menu.Item key="p" icon={<TruckOutlined />}>
+            生产看板
+          </Menu.Item>
 
           <Menu.Item key="f" icon={<RadarChartOutlined />} label="nav 1" onClick={() => window.location.href = 'http://119.3.238.154:3000/'}>
             云-边-端数据治理引擎

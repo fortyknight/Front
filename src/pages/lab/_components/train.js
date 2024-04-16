@@ -473,8 +473,6 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
           <div>
             {makeBody(formatMessage({ id: 'train.hintTarget' }))}
           </div>
-          <dl>
-          <dd>
           <span>
             <Select value={target} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300, marginBottom: 20 }} onChange={handleLabelChange}>
               {
