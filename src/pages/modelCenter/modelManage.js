@@ -78,6 +78,7 @@ const ModelManage = () => {
       
     return (
         <>
+        
             <div style={{ marginLeft: '170px' }}>
                 <Row>
                     <Col span={20}>

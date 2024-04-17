@@ -97,6 +97,28 @@ const routes = [
         _title_default: 'ices',
       },
       {
+        path: '/digitalTwins/dataChange',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../digitalTwins/dataChange.js'),
+            })
+          : require('../digitalTwins/dataChange.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/digitalTwins',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../digitalTwins/index.js'),
+            })
+          : require('../digitalTwins/index.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
         path: '/equipment/addData',
         exact: true,
         component: __IS_BROWSER
