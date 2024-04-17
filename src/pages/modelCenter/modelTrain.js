@@ -5,8 +5,6 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
-import Train from '../lab/_components/train'
-import lab from '../lab';
 
 import ModelTrainList from '../modelCenter/modelTrainList.js';
 import ModelTrainDesign from '../modelCenter/modelTrainDesign.js';
