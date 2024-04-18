@@ -318,7 +318,7 @@ const DatasetList = () => {
     //   </div>
     // </>
     <Layout>
-      <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)} style={{ marginLeft: '-30px', marginTop: '-30px', backgroundColor: '#EFF4F8', color: '#000000' }}>
+      {/* <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)} style={{ marginLeft: '-30px', marginTop: '-30px', backgroundColor: '#EFF4F8', color: '#000000' }}>
         <div className="logo" />
         <Menu
           mode="inline"
@@ -339,6 +339,10 @@ const DatasetList = () => {
             <Menu.Item key="d" style={{ backgroundColor: '#EFF4F8', }}>模型管理</Menu.Item>
             <Menu.Item key="g" style={{ backgroundColor: '#EFF4F8' }}>模型训练</Menu.Item>
           </SubMenu>
+          <SubMenu key="i" icon={<BarChartOutlined />} title="边缘设备" style={{ backgroundColor: '#EFF4F8' }}>
+            <Menu.Item key="c" style={{ backgroundColor: '#EFF4F8', }}>设备型号</Menu.Item>
+            <Menu.Item key="e" style={{ backgroundColor: '#EFF4F8' }}>设备实例</Menu.Item>
+          </SubMenu>
 
           <Menu.Item key="p" icon={<TruckOutlined />}>
             生产看板
@@ -348,7 +352,7 @@ const DatasetList = () => {
             云-边-端数据治理引擎
           </Menu.Item>
         </Menu>
-      </Sider>
+      </Sider> */}
       <Layout className="site-layout" style={{ backgroundColor: '#EFF4F8', marginTop: '-25px', width: '100vh', height: '100vh' }}>
 
 
