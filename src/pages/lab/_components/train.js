@@ -493,7 +493,7 @@ console.log('cqm,',modelParams)
           </div>
           <dl>
           <dd>
-          <span style={{ marginLeft: '30px', paddingTop: '10px' }}>
+          <span>
             <Select value={target} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300, marginBottom: 20 }} onChange={handleLabelChange}>
               {
                 labelColArr && labelColArr.map(label => {
