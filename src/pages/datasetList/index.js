@@ -347,7 +347,7 @@ const DatasetList = () => {
           </Menu.Item>
         </Menu>
       </Sider> */}
-      <Layout className="site-layout" style={{ backgroundColor: '#EFF4F8', marginTop: '-25px', width: '100vh', height: '100vh' }}>
+      <Layout className="site-layout" style={{  marginTop: '0px', width: '100vh', height: '100vh' }}>
 
 
         <Content

@@ -1,1 +1,1 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[9],{RXBc:function(t,e,n){"use strict";n.r(e);var a=n("q1tI"),c=n.n(a),o=(n("LLXN"),n("CxXe"));e["default"]=function(){return c.a.createElement(o["c"],{to:"/datasetList"})}}}]);
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([[9],{"S/FF":function(n,w){}}]);

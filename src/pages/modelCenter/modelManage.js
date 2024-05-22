@@ -3,8 +3,9 @@ import { withRouter } from 'umi';
 import React, { useState, useEffect } from 'react';
 import { Card, Col, Row } from 'antd';
 import { Input, Button, Drawer, Dropdown, Avatar, Skeleton } from 'antd';
-import {  DatePicker,  Form,Select, Space} from 'antd';
+import { DatePicker, Form, Select, Space } from 'antd';
 import axios from 'axios';
+import styles from './index.less'
 
 import {
     PlusOutlined,
@@ -46,39 +47,77 @@ const { Meta } = Card;
 const { Search } = Input;
 
 const ModelManage = () => {
+    const [data, setData] = useState([]);
+    const [dataset, setDataset] = useState([]);
+    const [modelParams, setModelParams] = useState([]);
+    const [record, setRecord] = useState(null);
+    const [type,setType] = useState(null);
+    const [cpu,setCpu] = useState(null);
+    const [memory,setMemory] = useState(null)
+;    
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        try {
+            const response_1 = await axios.get('/api/model/model-list');
+            setData(response_1.data.data);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const [open, setOpen] = useState(false);
-    const [form] = Form.useForm(); 
+    const [form] = Form.useForm();
     const { Option } = Select;
-    const showDrawer = (record) => {
-        sessionStorage.setItem('record', JSON.stringify(record));
+    const showDrawer = async (record) => {
+        console.log('record',record)
+        setRecord(record.id);
+        setCpu(record.cpu);
+        setMemory(record.memory);
+        setType(record.type);
+        const response_1 = await axios.get('/api/model/param', {
+            params: {
+                model_id: record.id,
+            },
+        });
+        const response_2 = await axios.get('/api/dataset');
+
+        setModelParams(response_1.data.data.params);
+        setDataset(response_2.data.data['datasets'])
         setOpen(true);
     };
-    const storedRecord = JSON.parse(sessionStorage.getItem('record'));
-    console.log('cxs',storedRecord)
+
     const onClose = () => {
         setOpen(false);
     };
-    const onSubmit = async (values) => {
+    const onFinish = (values) => {
+        const model_param_list = modelParams.map(param => ({
+            param_name: param.param_name,
+            param_value: values[`param_${param.id}`],
+        }));
+        const taskValues = {
+            model_id: record,
+            dataset_name: values.dataset,
+            task_name: values.name,
+            model_param_list,
+        };
+        axios.post('/api/task', taskValues) // 将数据提交到后端
+        .then((response) => {
+          onClose(); // 关闭抽屉
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    };
 
-            const response = await axios.get('/api/internet/download',{
-                params: {
-                    ...values,
-                    owner: storedRecord,
-                  },
-            });
-  const { file_path } = response.data;
-  const a = document.createElement('a');
-  a.href = file_path;
-  a.download = `search_${storedRecord}_${values.type}.jinja2`;  // 设置下载的文件名
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);}
 
-    
-      
+
+
     return (
         <>
-        
             <div style={{ marginLeft: '170px' }}>
                 <Row>
                     <Col span={20}>
@@ -97,10 +136,11 @@ const ModelManage = () => {
                         />
                     </Col>
                     <Col>
-                        <Button style={{ float: 'right' }} type="text" icon={<RedoOutlined />}></Button>
-                        数量：5
+                    
+                        <Button style={{ float: 'right' }} type="text" ></Button>
+                        数量：{data.length}
                     </Col>
-                    <Col>
+                    {/* <Col>
                         <Button type="primary" icon={<PlusOutlined />}>
                             新建
                         </Button>
@@ -109,177 +149,161 @@ const ModelManage = () => {
                         <Button type="primary" danger>
                             删除
                         </Button>
-                    </Col>
+                    </Col> */}
                 </Row>
+
 
 
                 <Row gutter={16}>
-                    <Col span={8}>
-                        <Card title="knn" bordered={false} extra={<a href="#">More</a>}
-                            cover={
-                              
- <img 
- className={"logoStyle"} 
- src={require('./R.png')} 
- alt=""
-/>
-                            }    
-                            actions={[
-                                <VerticalAlignBottomOutlined key="setting" onClick={() => showDrawer("knn")}/>,
-                                <EditOutlined key="edit" />,
-                                <EllipsisOutlined key="ellipsis" />,
-                            ]}>
-                            <Meta
-                                description="This is the description"
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="mlp" bordered={false} extra={<a href="#">More</a>}
-                            cover={
-                                <img
-                                  alt="example"
-                                  src={require('./image_1.png')} 
-                                  width= "auto" /* 设置宽度为200像素 */
-                                  height= "300px" /* 让高度按比例自动调整 */
+                    {data.map((item, index) => (
+                        <Col key={index} span={8}>
+                            <Card
+                                title={item.chinese_name}
+                                bordered={false}
+                                extra={<a href="#">More</a>}
+                                cover={
+                                    <img
+                                        alt="example"
+                                        src={require('./image_' + (index + 1) + '.png')}
+                                        width="auto"
+                                        height="300px"
+                                    />
+                                }
+                                actions={[
+                                    <VerticalAlignBottomOutlined key="setting" onClick={() => showDrawer(item)} />,
+                                    <EditOutlined key="edit" />,
+                                    <EllipsisOutlined key="ellipsis" />,
+                                ]}
+                            >
+                                <Meta
+                                    description={item.description}
                                 />
-                              }    
-                            actions={[
-                                <VerticalAlignBottomOutlined key="setting" onClick={() => showDrawer("knn")}/>,
-                                <EditOutlined key="edit" />,
-                                <EllipsisOutlined key="ellipsis" />,
-                            ]}>
-                            <Meta
-                                description="This is the description"
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="dtr" bordered={false} extra={<a href="#">More</a>}
-                            cover={
-                                <img
-                                  alt="example"
-                                  src={require('./image_2.png')} 
-                                  width= "auto" /* 设置宽度为200像素 */
-                                  height= "300px" /* 让高度按比例自动调整 */
-                                />
-                              }    
-                            actions={[
-                                <VerticalAlignBottomOutlined key="setting" onClick={() => showDrawer("knn")}/>,
-                                <EditOutlined key="edit" />,
-                                <EllipsisOutlined key="ellipsis" />,
-                            ]}>
-                            <Meta
-                                description="This is the description"
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="rn" bordered={false} extra={<a href="#">More</a>}
-                            cover={
-                                <img
-                                  alt="example"
-                                  src={require('./image_3.png')} 
-                                  width= "auto" /* 设置宽度为200像素 */
-                                  height= "300px" /* 让高度按比例自动调整 */
-                                />
-                              }    
-                            actions={[
-                                <VerticalAlignBottomOutlined key="setting" onClick={() => showDrawer("knn")}/>,
-                                <EditOutlined key="edit" />,
-                                <EllipsisOutlined key="ellipsis" />,
-                            ]}>
-                            <Meta
-                                description="This is the description"
-                            />
-                        </Card>
-                    </Col>
-                    <Col span={8}>
-                        <Card title="lr" bordered={false} extra={<a href="#">More</a>}
-                            cover={
-                                <img
-                                  alt="example"
-                                  src={require('./image_4.png')} 
-                                  width= "auto" /* 设置宽度为200像素 */
-                                  height= "300px" /* 让高度按比例自动调整 */
-                                />
-                              }    
-                            actions={[
-                                <VerticalAlignBottomOutlined key="setting" onClick={() => showDrawer("knn")}/>,
-                                <EditOutlined key="edit" />,
-                                <EllipsisOutlined key="ellipsis" />,
-                            ]}>
-                            <Meta
-                                description="This is the description"
-                            />
-                        </Card>
-                    </Col>
+                            </Card>
+                        </Col>
+                    ))}
                 </Row>
             </div>
             <Drawer
-        title="模型下发"
-        width={720}
-        onClose={onClose}
-        open={open}
-        styles={{
-          body: {
-            paddingBottom: 80,
-          },
-        }}
-        extra={
-          <Space>
-            <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={() => form.submit()} type="primary">
-              Submit
-            </Button>
-          </Space>
-        }
-      >
-        <Form layout="vertical" onFinish={onSubmit} form={form}>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="type"
-                label="分布式策略"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please choose the type',
-                  },
-                ]}
-              >
-                <Select placeholder="Please choose the type">
-                  <Option value="MTCS">MTCS</Option>
-                  <Option value="MOEA">MOEA</Option>
-                  <Option value="NSGAII">NSGAII</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row gutter={16}>
-            <Col span={12}>
-              <Form.Item
-                name="approver"
-                label="建模目标"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please choose the approver',
-                  },
-                ]}
-              >
-                <Select placeholder="Please choose the approver">
-                  <Option value="performance">性能有限</Option>
-                  <Option value="speed">速度有限</Option>
-                </Select>
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </Drawer>
+                title={<div style={{ fontSize: '24px' }}>模型下发</div>}
+                width={720}
+                onClose={onClose}
+                visible={open}
+                styles={{
+                    body: {
+                        paddingBottom: 50,
+                    },
+                    
+                }}
+                titleStyle={{ fontSize: '30px' }}
+                extra={
+                    <Space>
+                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={() => form.submit()} type="primary">
+                            Submit
+                        </Button>
+                    </Space>
+                }
+            >
+                <Form layout="vertical" onFinish={onFinish} form={form}>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="name"
+                                label={<label style={{ fontSize: '20px' }}>任务名称</label>}
+
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please choose the data',
+                                    },
+                                ]}
+                            >
+                                <Input
+                                    style={{
+                                        width: '100%',
+                                        fontSize: '15px',
+                                    }}
+                                    placeholder={`Please enter task name`}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    <Row gutter={16}>
+                        <Col span={12}>
+                            <Form.Item
+                                name="dataset"
+                                label={<label style={{ fontSize: '20px' }}>数据集</label>}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please choose the data',
+                                    },
+                                ]}
+                            >
+                                <Select placeholder="Please choose the dataset" style={{
+                                        width: '100%',
+                                        fontSize: '18px',
+                                    }}>
+                                    {dataset.map((dataset, index) => (
+                                        <Option value={dataset.name}>{dataset.name}</Option>
+                                    ))}
+
+                                </Select>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+
+
+                    {/* {modelParams.length > 0 ? (
+                        modelParams.map((param, index) => (
+                            <Row key={index} gutter={16}>
+                                <Col span={12}>
+                                    <Form.Item
+                                        name={`param_${param.id}`}
+                                        label={param.param_name}
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: `Please enter ${param.param_name}`,
+                                            },
+                                        ]}
+                                    >
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <Input
+                                                style={{
+                                                    width: '100%',
+                                                }}
+                                                placeholder={`Please enter ${param.param_name}`}
+                                            />
+                                            <div className={styles['item-hints']} style={{ position: 'relative' }}>
+                                                <div className={styles.hint} data-position="4">
+                                                    <span className={styles['hint-radius']}></span>
+                                                    <span className={styles['hint-dot']}>Tip</span>
+                                                    <div className={`${styles['hint-content']} ${styles['do--split-children']}`}>
+                                                        <p>{param.param_notice}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        ))
+                    ) : null} */}
+                    <Row justify="end">
+                        <Col>
+                            <Space>
+                                <Button onClick={onClose}>取消</Button>
+                                <Button htmlType="submit" type="primary">
+                                    提交
+                                </Button>
+                            </Space>
+                        </Col>
+                    </Row>
+                </Form>
+            </Drawer>
         </>
-
-
     )
 };
 export default withRouter(ModelManage);

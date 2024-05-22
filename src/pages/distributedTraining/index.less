@@ -1,0 +1,363 @@
+.spinner {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+  }
+  
+  .spinner div {
+    position: absolute;
+    width: 50%;
+    height: 150%;
+    background: #000000;
+    transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
+    animation: spinner-fzua35 1s calc(var(--delay) * 1s) infinite ease;
+  }
+  
+  .spinner div:nth-child(1) {
+    --delay: 0.1;
+    --rotation: 36;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(2) {
+    --delay: 0.2;
+    --rotation: 72;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(3) {
+    --delay: 0.3;
+    --rotation: 108;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(4) {
+    --delay: 0.4;
+    --rotation: 144;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(5) {
+    --delay: 0.5;
+    --rotation: 180;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(6) {
+    --delay: 0.6;
+    --rotation: 216;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(7) {
+    --delay: 0.7;
+    --rotation: 252;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(8) {
+    --delay: 0.8;
+    --rotation: 288;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(9) {
+    --delay: 0.9;
+    --rotation: 324;
+    --translation: 150;
+  }
+  
+  .spinner div:nth-child(10) {
+    --delay: 1;
+    --rotation: 360;
+    --translation: 150;
+  }
+  
+  @keyframes spinner-fzua35 {
+    0%, 10%, 20%, 30%, 50%, 60%, 70%, 80%, 90%, 100% {
+      transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1%));
+    }
+  
+    50% {
+      transform: rotate(calc(var(--rotation) * 1deg)) translate(0, calc(var(--translation) * 1.5%));
+    }
+  }
+  .card {
+    width: 400px;
+    height: 254px;
+    backdrop-filter: blur(7px);
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 26px;
+    box-shadow: 35px 35px 68px 0px rgba(157, 177, 255, 0.2), inset -8px -8px 16px 0px rgba(157, 177, 255, 0.6), inset 0px 11px 28px 0px rgb(255, 255, 255);
+    transition: all 0.3s;
+    cursor: pointer;
+    padding: 20px;
+  }
+  
+  .card:hover {
+    box-shadow: 35px 35px 68px 0px rgba(157, 177, 255, 0.5);
+  }
+  
+  .card:active {
+    transform: scale(0.95);
+    border: 1px solid blue;
+  }
+  .button {
+    font-size: 16px;
+    padding: 1em 3.3em;
+    cursor: pointer;
+    transform: perspective(200px) rotateX(15deg);
+    color: white;
+    font-weight: 900;
+    border: none;
+    border-radius: 5px;
+    background: linear-gradient(
+      0deg,
+      rgba(63, 94, 251, 1) 0%,
+      rgba(70, 135, 252, 1) 100%
+    );
+    box-shadow: rgba(63, 94, 251, 0.2) 0px 40px 29px 0px;
+    will-change: transform;
+    transition: all 0.3s;
+    border-bottom: 2px solid rgba(70, 135, 252, 1);
+  }
+  
+  .button:hover {
+    transform: perspective(180px) rotateX(30deg) translateY(2px);
+  }
+  
+  .button:active {
+    transform: perspective(170px) rotateX(36deg) translateY(5px);
+  }
+  .boxes {
+    --size: 22px;
+    --duration: 800ms;
+    height: calc(var(--size) * 2);
+    width: calc(var(--size) * 3);
+    position: relative;
+    transform-style: preserve-3d;
+    transform-origin: 50% 50%;
+    margin-top: calc(var(--size) * 1.5 * -1);
+    transform: rotateX(60deg) rotateZ(45deg) rotateY(0deg) translateZ(0px);
+  }
+  
+  .boxes .box {
+    width: var(--size);
+    height: var(--size);
+    top: 0;
+    left: 0;
+    position: absolute;
+    transform-style: preserve-3d;
+  }
+  
+  .boxes .box:nth-child(1) {
+    transform: translate(100%, 0);
+    -webkit-animation: box1 var(--duration) linear infinite;
+    animation: box1 var(--duration) linear infinite;
+  }
+  
+  .boxes .box:nth-child(2) {
+    transform: translate(0, 100%);
+    -webkit-animation: box2 var(--duration) linear infinite;
+    animation: box2 var(--duration) linear infinite;
+  }
+  
+  .boxes .box:nth-child(3) {
+    transform: translate(100%, 100%);
+    -webkit-animation: box3 var(--duration) linear infinite;
+    animation: box3 var(--duration) linear infinite;
+  }
+  
+  .boxes .box:nth-child(4) {
+    transform: translate(200%, 0);
+    -webkit-animation: box4 var(--duration) linear infinite;
+    animation: box4 var(--duration) linear infinite;
+  }
+  
+  .boxes .box > div {
+    --background: #5C8DF6;
+    --top: auto;
+    --right: auto;
+    --bottom: auto;
+    --left: auto;
+    --translateZ: calc(var(--size) / 2);
+    --rotateY: 0deg;
+    --rotateX: 0deg;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    top: var(--top);
+    right: var(--right);
+    bottom: var(--bottom);
+    left: var(--left);
+    transform: rotateY(var(--rotateY)) rotateX(var(--rotateX)) translateZ(var(--translateZ));
+  }
+  
+  .boxes .box > div:nth-child(1) {
+    --top: 0;
+    --left: 0;
+  }
+  
+  .boxes .box > div:nth-child(2) {
+    --background: #145af2;
+    --right: 0;
+    --rotateY: 90deg;
+  }
+  
+  .boxes .box > div:nth-child(3) {
+    --background: #447cf5;
+    --rotateX: -90deg;
+  }
+  
+  .boxes .box > div:nth-child(4) {
+    --background: #DBE3F4;
+    --top: 0;
+    --left: 0;
+    --translateZ: calc(var(--size) * 3 * -1);
+  }
+  
+  @-webkit-keyframes box1 {
+    0%, 50% {
+      transform: translate(100%, 0);
+    }
+  
+    100% {
+      transform: translate(200%, 0);
+    }
+  }
+  
+  @keyframes box1 {
+    0%, 50% {
+      transform: translate(100%, 0);
+    }
+  
+    100% {
+      transform: translate(200%, 0);
+    }
+  }
+  
+  @-webkit-keyframes box2 {
+    0% {
+      transform: translate(0, 100%);
+    }
+  
+    50% {
+      transform: translate(0, 0);
+    }
+  
+    100% {
+      transform: translate(100%, 0);
+    }
+  }
+  
+  @keyframes box2 {
+    0% {
+      transform: translate(0, 100%);
+    }
+  
+    50% {
+      transform: translate(0, 0);
+    }
+  
+    100% {
+      transform: translate(100%, 0);
+    }
+  }
+  
+  @-webkit-keyframes box3 {
+    0%, 50% {
+      transform: translate(100%, 100%);
+    }
+  
+    100% {
+      transform: translate(0, 100%);
+    }
+  }
+  
+  @keyframes box3 {
+    0%, 50% {
+      transform: translate(100%, 100%);
+    }
+  
+    100% {
+      transform: translate(0, 100%);
+    }
+  }
+  
+  @-webkit-keyframes box4 {
+    0% {
+      transform: translate(200%, 0);
+    }
+  
+    50% {
+      transform: translate(200%, 100%);
+    }
+  
+    100% {
+      transform: translate(100%, 100%);
+    }
+  }
+  
+  @keyframes box4 {
+    0% {
+      transform: translate(200%, 0);
+    }
+  
+    50% {
+      transform: translate(200%, 100%);
+    }
+  
+    100% {
+      transform: translate(100%, 100%);
+    }
+  }
+  
+  .card2 {
+    box-sizing: border-box;
+    width: 190px;
+    height: 254px;
+    background: rgba(217, 217, 217, 0.58);
+    border: 1px solid white;
+    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    font-weight: bolder;
+    color: black;
+  }
+  
+  .card2:hover {
+    border: 1px solid black;
+    transform: scale(1.05);
+  }
+  
+  .card2:active {
+    transform: scale(0.95) rotateZ(1.7deg);
+  }
+  
+  .singleArrow {
+    width: 10px; /* 宽度为箭头的宽度 */
+    height: 100px; /* 高度为箭头的长度 */
+    position: relative;
+    background-color: black; /* 箭头的颜色 */
+    transform: rotate(0deg); /* 旋转角度，90度使其朝下 */
+}
+.singleArrow::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -5px; /* 调整箭头的位置 */
+    top: 100%; /* 箭头的位置调整到元素底部 */
+    border-left: 10px solid transparent; /* 箭头的两侧高度 */
+    border-right: 10px solid transparent; /* 箭头的两侧高度 */
+    border-top: 20px solid black; /* 箭头的宽度和颜色 */
+}
+
+  

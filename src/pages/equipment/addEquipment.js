@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useNavigate } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 const { Option } = Select;
 const AddEquipment = () => {
   const [open, setOpen] = useState(false);
@@ -28,16 +29,19 @@ const AddEquipment = () => {
         console.error(error);
       });
   };
+  console.log('cx2',open)
   return (
     <>
+
       <Button type="primary" onClick={showDrawer} icon={<PlusOutlined />} style={{marginTop:'10px'}}>
         新建设备
       </Button>
+      <div>
       <Drawer
-        title="新建设备"
+      title={<div style={{ fontSize: '24px' }}>新建设备</div>}
         width={720}
         onClose={onClose}
-        open={open}
+        visible={open}
         styles={{
           body: {
             paddingBottom: 80,
@@ -49,7 +53,7 @@ const AddEquipment = () => {
             <Col span={12}>
               <Form.Item
                 name="id"
-                label="设备ID"
+                label={<label style={{ fontSize: '20px' }}>设备ID</label>}
                 rules={[
                   {
                     required: true,
@@ -63,7 +67,7 @@ const AddEquipment = () => {
             <Col span={12}>
               <Form.Item
                 name="name"
-                label="设备名称"
+                label={<label style={{ fontSize: '20px' }}>设备名称</label>}
                 rules={[
                   {
                     required: true,
@@ -84,7 +88,7 @@ const AddEquipment = () => {
             <Col span={12}>
               <Form.Item
                 name="type"
-                label="设备类型"
+                label={<label style={{ fontSize: '20px' }}>设备类型</label>}
                 rules={[
                   {
                     required: true,
@@ -107,7 +111,7 @@ const AddEquipment = () => {
             <Col span={24}>
               <Form.Item
                 name="description"
-                label="描述"
+                label={<label style={{ fontSize: '20px' }}>描述</label>}
                 rules={[
                   {
                     required: true,
@@ -131,6 +135,7 @@ const AddEquipment = () => {
           </Row>
         </Form>
       </Drawer>
+      </div>
     </>
   );
 };

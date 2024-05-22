@@ -91,11 +91,10 @@ const Lab = ({ dispatch, location: { query: { datasetName } }, train: { defaultT
     //   </Card>
     // </Form>
     <Layout>
-    <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value) } 
-    style={{marginLeft:'-30px',marginTop:'-30px',backgroundColor: '#EFF4F8'}}>
+
       <div className="logo" />
       <Menu
-        mode="inline"
+        mode="horizontal"
         selectedKeys={[selectedKey]}
         onClick={({ key }) => handleMenuClick(key)}
         style={{ backgroundColor: '#EFF4F8' }}
@@ -114,8 +113,7 @@ const Lab = ({ dispatch, location: { query: { datasetName } }, train: { defaultT
           {formatMessage({id: 'extra.center'})}
         </Menu.Item>
       </Menu>
-    </Sider>
-    <div className={styles.breadcrumb} style={{marginTop:'-20px',marginLeft:'20px'}}>
+    <div className={styles.breadcrumb} style={{marginTop:'10px',marginLeft:'20px'}}>
       <Breadcrumb>
          <Breadcrumb.Item>
           <a href="/">{formatMessage({id: 'extra.dataset'})}</a>
@@ -132,7 +130,7 @@ const Lab = ({ dispatch, location: { query: { datasetName } }, train: { defaultT
         className="site-layout-background"
         style={{
           marginTop:'30px',
-          marginLeft:'-150px',
+          marginLeft:'50px',
           minHeight: 980,
         }}
       >

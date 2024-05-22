@@ -10,8 +10,8 @@ const ExperimentList = () => {
   
     try {
       // 向后端发送请求以更改设备状态
-      const response = await axios.post('api/device/updateDeviceState', {
-        id: record.id,
+      const response = await axios.post('http://39.105.125.118:8000/api/device/updateDeviceState', {
+        device_id: record.id,
       });
 
       if (response.status === 200) {
@@ -119,7 +119,7 @@ const columns = [
     }
   };
 
-  return <Table  style={{minWidth:'300px',minHeight:'300px',boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'}} columns={columns} dataSource={data} />;
+  return <Table  style={{minWidth:'300px',minHeight:'300px',boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',marginTop:'20px'}} columns={columns} dataSource={data} />;
 }
 
 

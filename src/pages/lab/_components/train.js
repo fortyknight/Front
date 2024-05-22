@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Card, Col, Form, InputNumber, Radio, Row, Select, Slider } from 'antd';
+import { Button, Card, Col, Form, InputNumber, Radio, Row, Select, Slider,Input } from 'antd';
 import { connect } from 'dva';
 import { withRouter } from 'umi';
 import { formatMessage } from 'umi-plugin-locale';
@@ -11,6 +11,7 @@ import { makeToolTipFromMsgId } from '@/utils/util';
 import { showNotification } from '@/utils/notice';
 import { setLabel } from 'echarts/src/chart/bar/helper';
 import { PartitionStrategy, PartitionClass, FeatureType } from '@/pages/common/appConst';
+import axios from 'axios';
 
 
 const { Option } = Select;
@@ -34,7 +35,7 @@ const defaultData = [{
 
 const Train = ({ train: { labelName }, dispatch, location: { query: { datasetName } } }) => {
 
-  const frameworkTypes = ['knn', 'mlp', 'rn', 'lr', 'dtr']  // first as default value
+  const frameworkTypes = ['KNN', 'MLP', 'RF', 'LR', 'DTR']  // first as default value
   const distributedPolicieTypes = ['mcts', 'moea', 'nsgaii', 'rnsgaii']
 
   const dataRef = useRef();
@@ -58,6 +59,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
   const [binaryTipVisible, setBinaryTipVisible] = useState(false);
   const [sliderData, setSliderData] = useState(defaultData);
   const [features, setFeatures] = useState([]);
+  const [modelParams, setModelParams] = useState([]);
 
   const labelColArr = features?.filter(feature => feature.type === 'continuous' || feature.type === 'categorical') || [];
   const datetimeColArr = features?.filter(feature => feature.type === 'datetime') || [];
@@ -80,7 +82,24 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
   const hasDatetimeCols = datetimeColArr.length > 0;
 
   const [form] = Form.useForm();
+  useEffect(() => {
+    fetchData();
+}, []);
 
+const fetchData = async (modelId) => {
+    try {
+      const response_1 = await axios.get('/api/model/param', {
+        params: {
+            model_id: modelId,
+        },
+    });
+    setModelParams(response_1.data.data.params);
+
+    } catch (error) {
+        console.error(error);
+    }
+};
+console.log('cqm,',modelParams)
 
   // 如果从数据探查的 去训练 按钮进来的 需要将该标签列以及其图表默认展示
   useEffect(() => {
@@ -161,7 +180,6 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
         setTarget(config.conf.label_col);
         setPosValue(config.conf.pos_label);
         setMode(config.conf.train_mode);
-        setExperimentEngine(config.conf.engine);
         setPartitionStrategy(config.conf.partition_strategy);
 
         if (config.conf.partition_strategy === PartitionStrategy.Manual) {
@@ -469,13 +487,13 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
         <dt style={{ color: '#113D95', fontSize: '18px', }}>
           <span>{formatMessage({ id: 'train.tagCol' })}</span>
         </dt>
-        <dd>
-          <div>
+      </dl>
+          <div style={{ marginLeft: '30px', paddingTop: '0px' }}>
             {makeBody(formatMessage({ id: 'train.hintTarget' }))}
           </div>
           <dl>
           <dd>
-          <span>
+          <span style={{ marginLeft: '30px', paddingTop: '10px' }}>
             <Select value={target} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300, marginBottom: 20 }} onChange={handleLabelChange}>
               {
                 labelColArr && labelColArr.map(label => {
@@ -545,7 +563,17 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
               {makeToolTipFromMsgId('train.hintExperimentEngine')}
             </dt>
             <dd>
-              <Select value={experimentEngine} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300 }} onChange={v => { setExperimentEngine(v) }}>
+              <Select value={experimentEngine} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300 }} onChange={v => { 
+                const engineNameMap = {
+                  'KNN': '1',
+                  'MLP': '2',
+                  'DTR': '3',
+                  'RF': '4',
+                  'LR': '5',
+                };
+                setExperimentEngine(v) ;
+                console.log(engineNameMap[v]);
+                fetchData(engineNameMap[v]);}}>
                 {
                   frameworkTypes.map(v => {
                     return (
@@ -556,6 +584,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
               </Select>
             </dd>
           </dl>
+         
         </div>
         <div className={styles.modeWrapper}>
           <dl className={styles.mode} >
@@ -591,6 +620,43 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
           </dl>
         </div>
       </div>
+      {modelParams.length > 0 ? (
+                        modelParams.map((param, index) => (
+                           <div style={{width:'1000px',marginLeft:'30px'}}> <Row key={index} gutter={16}>
+                                <Col span={12}>
+                                    <Form.Item
+                                        name={`param_${param.id}`}
+                                        label={param.param_name}
+                                        rules={[
+                                            {
+                                                required: false,
+                                                message: `Please enter ${param.param_name}`,
+                                            },
+                                        ]}
+                                    >
+                                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                                            <Input
+                                                style={{
+                                                    width: '100%',
+                                                }}
+                                                placeholder={`Please enter ${param.param_name}`}
+                                            />
+                                            <div className={styles['item-hints']} style={{ position: 'relative' }}>
+                                                <div className={styles.hint} data-position="4">
+                                                    <span className={styles['hint-radius']}></span>
+                                                    <span className={styles['hint-dot']}>Tip</span>
+                                                    <div className={`${styles['hint-content']} ${styles['do--split-children']}`}>
+                                                        <p>{param.param_notice}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </Form.Item>
+                                </Col>
+                            </Row></div>
+                        ))
+                    ) : null}
       <dl style={{ marginLeft: '30px', paddingTop: '10px' }}>
         <dt style={{ color: '#113D95', fontSize: '18px', }}>
           {formatMessage({ id: 'train.dataAllot' })}

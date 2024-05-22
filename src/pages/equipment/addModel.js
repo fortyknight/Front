@@ -19,7 +19,7 @@ const AddModel = () => {
         title="Create a new account"
         width={720}
         onClose={onClose}
-        open={open}
+        visible={open}
         styles={{
           body: {
             paddingBottom: 80,

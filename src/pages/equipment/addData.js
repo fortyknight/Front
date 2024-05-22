@@ -8,12 +8,14 @@ const AddData = () => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm(); 
   const [data, setData] = useState([]);
+  const [instanceType, setInstanceType] = useState('');
+  
   
   const { Option } = Select;
   useEffect(() => {
     fetchData();
   }, []);
-
+ 
   const fetchData = async () => {
     try {
       const response = await axios.get('/api/device'); // 根据你的后端 API 路由进行相应的修改
@@ -34,17 +36,20 @@ const AddData = () => {
       ...values,
       state: 0
     };
+    console.log('value',values)
 
     axios.post('/api/internet', updatedValues) // 将数据提交到后端
       .then((response) => {
         console.log(response.data);
         form.resetFields(); // 提交成功后重置表单
         onClose(); // 关闭抽屉
-        window.location.reload(); 
       })
       .catch((error) => {
         console.error(error);
       });
+  };
+  const handleChange = (value) => {
+     setInstanceType(value);
   };
   return (
     <>
@@ -52,10 +57,10 @@ const AddData = () => {
         数据接入
       </Button>
       <Drawer
-        title="数据接入"
+      title={<div style={{ fontSize: '24px' }}>数据接入</div>}
         width={720}
         onClose={onClose}
-        open={open}
+        visible={open}
         styles={{
           body: {
             paddingBottom: 80,
@@ -68,7 +73,7 @@ const AddData = () => {
             <Col span={12}>
               <Form.Item
                 name="name"
-                label="网关名称"
+                label={<label style={{ fontSize: '20px' }}>网关名称</label>}
                 rules={[
                   {
                     required: true,
@@ -82,7 +87,7 @@ const AddData = () => {
             <Col span={12}>
               <Form.Item
                 name="type"
-                label="数据来源"
+                label={<label style={{ fontSize: '20px' }}>数据来源</label>}
                 rules={[
                   {
                     required: true,
@@ -109,7 +114,7 @@ const AddData = () => {
             <Col span={12}>
               <Form.Item
                 name="address"
-                label="服务器地址"
+                label={<label style={{ fontSize: '20px' }}>服务器地址</label>}
                 rules={[
                   {
                     required: true,
@@ -129,7 +134,7 @@ const AddData = () => {
             <Col span={12}>
               <Form.Item
                 name="port"
-                label="服务器端口"
+                label={<label style={{ fontSize: '20px' }}>端口</label>}
                 rules={[
                   {
                     required: true,
@@ -147,12 +152,101 @@ const AddData = () => {
             </Col>
             
           </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                name="instance_type"
+                label={<label style={{ fontSize: '20px' }}>实例类型</label>}
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter Server Instance Type',
+                  },
+                ]}
+              >
+              <Select
+      style={{
+        width: 330,
+      }}
+      onChange={handleChange}
+      options={[
+        {
+          value: 'cpu',
+          label: 'CPU',
+        },
+        {
+          value: 'gpu',
+          label: 'GPU',
+        },
+        {
+          value: 'npu',
+          label: 'NPU',
+        },
+        {
+          value: '嵌入式设备',
+          label: '嵌入式设备',
+        },
+        {
+          value: '其它',
+          label: '其它（无计算能力）',
+        },
+      ]}
+    />
+              </Form.Item>
+            </Col>
+
+            
+          </Row>
+          {/* {(instanceType === 'cpu'||instanceType === 'gpu'||instanceType === 'npu'||instanceType === '嵌入式设备') && (
+                        <Row gutter={16}>
+                        <Col span={12}>
+                          <Form.Item
+                            name="username"
+                            label="用户名"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please enter username',
+                              },
+                            ]}
+                          >
+                          <Input
+                              style={{
+                                width: '100%',
+                              }}
+                              placeholder="Please enter username"
+                            />
+                          </Form.Item>
+                        </Col>
+            
+                        <Col span={12}>
+                          <Form.Item
+                            name="password"
+                            label="密码"
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Please enter password',
+                              },
+                            ]}
+                          >
+                          <Input
+                              style={{
+                                width: '100%',
+                              }}
+                              placeholder="Please enter password"
+                            />
+                          </Form.Item>
+                        </Col>
+                        
+                      </Row>
+            )} */}
 
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
                 name="description"
-                label="描述"
+                label={<label style={{ fontSize: '20px' }}>描述</label>}
                 rules={[
                   {
                     required: true,

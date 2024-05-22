@@ -8,7 +8,7 @@ import {
 import dynamic from 'umi/dynamic';
 import renderRoutes from 'umi/lib/renderRoutes';
 import history from '@@/history';
-import RendererWrapper0 from 'D:/Desktop/experiment/cooka/src/pages/.umi/LocaleWrapper.jsx';
+import RendererWrapper0 from 'D:/vsWork/cooka/Front/src/pages/.umi/LocaleWrapper.jsx';
 import { routerRedux, dynamic as _dvaDynamic } from 'dva';
 
 const Router = routerRedux.ConnectedRouter;
@@ -84,7 +84,7 @@ const routes = [
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/datasetList/models/datasetlist.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/datasetList/models/datasetlist.js').then(
                   m => {
                     return { namespace: 'datasetlist', ...m.default };
                   },
@@ -115,6 +115,52 @@ const routes = [
               component: () => import('../digitalTwins/index.js'),
             })
           : require('../digitalTwins/index.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/distributedTraining/distributeTable',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () =>
+                import('../distributedTraining/distributeTable.js'),
+            })
+          : require('../distributedTraining/distributeTable.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/distributedTraining',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../distributedTraining/index.js'),
+            })
+          : require('../distributedTraining/index.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/distributedTraining/modelDistribute',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () =>
+                import('../distributedTraining/modelDistribute.js'),
+            })
+          : require('../distributedTraining/modelDistribute.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/distributedTraining/trainDesign',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../distributedTraining/trainDesign.js'),
+            })
+          : require('../distributedTraining/trainDesign.js').default,
         _title: 'ices',
         _title_default: 'ices',
       },
@@ -213,7 +259,7 @@ const routes = [
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/importFile/models/importFile.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/importFile/models/importFile.js').then(
                   m => {
                     return { namespace: 'importFile', ...m.default };
                   },
@@ -243,12 +289,12 @@ const routes = [
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/lab/models/center.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/lab/models/center.js').then(
                   m => {
                     return { namespace: 'center', ...m.default };
                   },
                 ),
-                import('D:/Desktop/experiment/cooka/src/pages/lab/models/train.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/lab/models/train.js').then(
                   m => {
                     return { namespace: 'train', ...m.default };
                   },
@@ -257,6 +303,17 @@ const routes = [
               component: () => import('../lab/index.js'),
             })
           : require('../lab/index.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
+        path: '/largeModel',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../largeModel/index.js'),
+            })
+          : require('../largeModel/index.js').default,
         _title: 'ices',
         _title_default: 'ices',
       },
@@ -305,13 +362,24 @@ const routes = [
         _title_default: 'ices',
       },
       {
+        path: '/modelCenter/taskTable',
+        exact: true,
+        component: __IS_BROWSER
+          ? _dvaDynamic({
+              component: () => import('../modelCenter/taskTable.js'),
+            })
+          : require('../modelCenter/taskTable.js').default,
+        _title: 'ices',
+        _title_default: 'ices',
+      },
+      {
         path: '/uploadFile',
         exact: true,
         component: __IS_BROWSER
           ? _dvaDynamic({
               app: require('@tmp/dva').getApp(),
               models: () => [
-                import('D:/Desktop/experiment/cooka/src/pages/uploadFile/models/uploadFile.js').then(
+                import('D:/vsWork/cooka/Front/src/pages/uploadFile/models/uploadFile.js').then(
                   m => {
                     return { namespace: 'uploadFile', ...m.default };
                   },
@@ -326,7 +394,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('D:/Desktop/experiment/cooka/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('D:/vsWork/cooka/Front/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: false },
           ),
@@ -340,7 +408,7 @@ const routes = [
   {
     component: () =>
       React.createElement(
-        require('D:/Desktop/experiment/cooka/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+        require('D:/vsWork/cooka/Front/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
           .default,
         { pagesPath: 'src/pages', hasRoutesInConfig: false },
       ),

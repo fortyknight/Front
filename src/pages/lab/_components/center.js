@@ -154,11 +154,7 @@ class Center extends React.Component {
       dataIndex: 'no_experiment',
       key: 'no_experiment'
     },
-    {
-      title: formatMessage({ id: 'center.titleEngine' }),
-      dataIndex: 'engine',
-      key: 'engine',
-    },
+
     {
       title: formatMessage({ id: 'train.trainMode' }),
       dataIndex: 'train_mode',
