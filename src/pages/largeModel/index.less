@@ -1,0 +1,103 @@
+.chatContainer.list-item {
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  
+  .chatContainer.list-item.you {
+    background-color: #e2e6ea;
+  }
+  
+  .chatContainer.list-item:before {
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    position: absolute;
+  }
+  
+  .chatContainer.list-item.you:before {
+    border-color: transparent #e2e6ea transparent transparent;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .chatContainer.list-item.chatgpt:before {
+    border-color: transparent transparent transparent #f8f9fa;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .singleArrow {
+    width: 10px; /* 宽度为箭头的宽度 */
+    height: 100px; /* 高度为箭头的长度 */
+    position: relative;
+    background-color: black; /* 箭头的颜色 */
+    transform: rotate(270deg); /* 旋转角度，90度使其朝下 */
+}
+.singleArrow::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -5px; /* 调整箭头的位置 */
+    top: 100%; /* 箭头的位置调整到元素底部 */
+    border-left: 10px solid transparent; /* 箭头的两侧高度 */
+    border-right: 10px solid transparent; /* 箭头的两侧高度 */
+    border-top: 20px solid black; /* 箭头的宽度和颜色 */
+}
+button {
+  font-family: inherit;
+  font-size: 20px;
+  background: royalblue;
+  color: white;
+  padding: 0.7em 1em;
+  padding-left: 0.9em;
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+button span {
+  display: block;
+  margin-left: 0.3em;
+  transition: all 0.3s ease-in-out;
+}
+
+button svg {
+  display: block;
+  transform-origin: center center;
+  transition: transform 0.3s ease-in-out;
+}
+
+button:hover .svg-wrapper {
+  animation: fly-1 0.6s ease-in-out infinite alternate;
+}
+
+button:hover svg {
+  transform: translateX(1.2em) rotate(45deg) scale(1.1);
+}
+
+button:hover span {
+  transform: translateX(5em);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+@keyframes fly-1 {
+  from {
+    transform: translateY(0.1em);
+  }
+
+  to {
+    transform: translateY(-0.1em);
+  }
+}

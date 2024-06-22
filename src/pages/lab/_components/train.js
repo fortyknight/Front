@@ -494,7 +494,7 @@ console.log('cqm,',modelParams)
           <dl>
           <dd>
           <span>
-            <Select value={target} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300, marginBottom: 20 }} onChange={handleLabelChange}>
+            <Select value={target} placeholder={formatMessage({ id: 'train.select' })} style={{ width: 300, marginBottom: 20,marginLeft:'30px' }} onChange={handleLabelChange}>
               {
                 labelColArr && labelColArr.map(label => {
                   return (

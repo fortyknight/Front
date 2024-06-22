@@ -24,7 +24,7 @@ import {
   UserOutlined,
   VideoCameraOutlined,
   BarsOutlined,
-  ControlOutlined,
+  RedditOutlined,
   FolderOutlined
 } from '@ant-design/icons';
 
@@ -79,7 +79,7 @@ function BasicLayout(props) {
   return (
 
     <Layout style={{ height: '100vh',  }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}  style={{backgroundColor:'#FFFFFF',}}>
+      <Sider trigger={null} collapsible collapsed={collapsed}  width={250} style={{backgroundColor:'#FFFFFF'}}>
         <div className="demo-logo-vertical" />
         <Menu
               mode="inline"
@@ -122,8 +122,8 @@ function BasicLayout(props) {
               <Link to="/distributedTraining">云-边-端数据治理引擎</Link>
                 
               </Menu.Item>
-              <Menu.Item key="f" icon={<RadarChartOutlined />} label="nav 1">
-              <Link to="/largeModel">大模型</Link>
+              <Menu.Item key="i" icon={<RedditOutlined />} label="nav 1">
+              <Link to="/largeModel">大模型引导数字孪生</Link>
               </Menu.Item>
             </Menu>
       </Sider>

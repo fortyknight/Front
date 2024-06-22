@@ -47,7 +47,7 @@ const Lab = ({ dispatch, location: { query: { datasetName } }, train: { defaultT
         defaultTab:tab
       }
     })
-  }, [])
+  }, [defaultTab, dispatch])
   const datasetNameHtml = (
     <>
       <Form.Item style={{ float: 'left', marginRight: 10, marginTop: 20, visibility: 'hidden'}} name="datasetName" label="数据集名称">

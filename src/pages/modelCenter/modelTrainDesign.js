@@ -101,7 +101,7 @@ const ModelTrainDesign = () => {
   <Title level={4}>目标列</Title>
   
 
-  <Select placeholder="选择一个目标列来进行训练" options={options1} style={{ width: 300 }} />
+  <Select placeholder="选择一个目标列来进行训练" options={options1} style={{ width: 300,marginLeft: '30px', }} />
   <Button  style={{marginLeft:'10px'}}type="primary">训练</Button>
   </div>
   

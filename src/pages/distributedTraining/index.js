@@ -66,8 +66,7 @@ const [selectedDevices, setSelectedDevices] = useState([]);
     };
   }, [data]);
  
-console.log('cqm',internetData)
-console.log('cqm',internetData[7]?.cup_used )
+
 
 
 
@@ -256,7 +255,7 @@ console.log('cqm',internetData[7]?.cup_used )
                   </div>
             
               <div style={{marginTop:"30px"}}>
-              <Table columns={columns} dataSource={bestAllocation}  />
+              <Table columns={columns} dataSource={bestAllocation}  style={{ fontSize: "26px" }}/>
               </div>
               </div>
             )}

@@ -195,14 +195,6 @@ const ModelManage = () => {
                     
                 }}
                 titleStyle={{ fontSize: '30px' }}
-                extra={
-                    <Space>
-                        <Button onClick={onClose}>Cancel</Button>
-                        <Button onClick={() => form.submit()} type="primary">
-                            Submit
-                        </Button>
-                    </Space>
-                }
             >
                 <Form layout="vertical" onFinish={onFinish} form={form}>
                     <Row gutter={16}>

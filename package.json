@@ -23,7 +23,8 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-draggable": "^4.4.3",
-    "react-infinite-scroller": "^1.2.4"
+    "react-infinite-scroller": "^1.2.4",
+    "react-jwchat": "^1.5.1"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",

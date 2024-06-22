@@ -10,7 +10,7 @@ const ExperimentList = () => {
   
     try {
       // 向后端发送请求以更改设备状态
-      const response = await axios.post('http://39.105.125.118:8000/api/device/updateDeviceState', {
+      const response = await axios.post('/api/device/updateDeviceState', {
         device_id: record.id,
       });
 

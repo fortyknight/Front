@@ -117,14 +117,14 @@ const DeviceList = () => {
   const handleConnect = async (record) => {
     try {
       // 向后端发送请求以更改设备状态
-      const response = axios.post('http://39.105.125.118:8000/postModel');
+      const response = axios.post('http://localhost:8000/postModel');
       const response2 = await axios.get('/api/internet/connect', {
         params: {
           host: record.address
         }
       });
       if (response2.data.data.message !== 11001) {
-        const response3 = await axios.post('http://39.105.125.118:8000/api/internet/changestate', {
+        const response3 = axios.post('http://localhost:8000/api/internet/changestate', {
           id: record.id,
           type: true
         });
@@ -154,22 +154,23 @@ const DeviceList = () => {
   };
   const { Option } = Select;
   const handleDisConnect = async (record) => {
-    const response4 = await axios.post('http://39.105.125.118:8000/api/internet/changestate', {
+    const updatedData = data.map(item => {
+      if (item.id === record.id && item.tags[0] === '在线') {
+        return {
+          ...item,
+          tags: ['离线'] // 更新设备状态S
+        };
+      }
+      return item;
+    });
+    setData(updatedData);
+    const response4 = await axios.post('/api/internet/changestate', {
       id: record.id,
       type: false
     });
-    if (response4.status === 200) {
-      const updatedData = data.map(item => {
-        if (item.id === record.id && item.tags[0] === '在线') {
-          return {
-            ...item,
-            tags: ['离线'] // 更新设备状态S
-          };
-        }
-        return item;
-      });
-      setData(updatedData);
-    }
+   
+
+    
   }
   const columns = [
     {
