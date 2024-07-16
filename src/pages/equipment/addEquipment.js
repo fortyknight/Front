@@ -1,7 +1,7 @@
 import React, { useState,useNavigate } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
-import axios from 'axios';
+import request from "@/config/request";
 import { Link } from 'react-router-dom';
 const { Option } = Select;
 const AddEquipment = () => {
@@ -18,7 +18,7 @@ const AddEquipment = () => {
       ...values,
       state: true
     };
-    axios.post('/api/device', updatedValues) // 将数据提交到后端
+    request.post('/api/device', updatedValues) // 将数据提交到后端
       .then((response) => {
         console.log(response.data);
         form.resetFields(); // 提交成功后重置表单

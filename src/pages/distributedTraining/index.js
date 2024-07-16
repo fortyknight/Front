@@ -5,7 +5,7 @@ import { Input, Collapse, Space, Empty, Drawer, Statistic, Tag, Divider, Card, P
 import TrainDesign from "./trainDesign";
 import ModelDistribute from "./modelDistribute";
 import DistributeTable from "./distributeTable";
-import axios from 'axios'
+import request from "@/config/request";
 import styles from './index.less';
 import {ArrowDownOutlined} from '@ant-design/icons';
 import { Table,notification, } from 'antd';
@@ -110,7 +110,7 @@ const [selectedDevices, setSelectedDevices] = useState([]);
     };
   
     try {
-      const response = await axios.post('/api/distribute', payload);
+      const response = await request.post('/api/distribute', payload);
       setBestAllocation(response.data.best_allocation);
       console.log('提交成功:', response.data);
     } catch (error) {
@@ -130,8 +130,8 @@ const [selectedDevices, setSelectedDevices] = useState([]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
-      const response_1 = await axios.get('/api/task', {
+      const response = await request.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
+      const response_1 = await request.get('/api/task', {
         params: {
           page_num: 1,
           page_size: 100,

@@ -5,7 +5,7 @@ import { Input, Row, Col, Button, Drawer,Statistic,Tag } from 'antd';
 import DeviceList from "./deviceList";
 import { CheckCircleTwoTone, CloseCircleTwoTone, QuestionCircleTwoTone } from '@ant-design/icons';
 import AddData from "./addData";
-import axios from 'axios';
+import request from "@/config/request";
 
 const { Search } = Input;
 
@@ -24,7 +24,7 @@ const EquipmentExample = ()=>{
     
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
+        const response = await request.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
         setData(response.data.data);
       } catch (error) {
         console.error(error);

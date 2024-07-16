@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Divider, Radio, Table,ConfigProvider,Pagination } from 'antd';
 import styled from 'styled-components';
-import axios from 'axios'
+import request from "@/config/request";
 
 
 const columns = [
@@ -60,7 +60,7 @@ const TrainDesign = ({ setSelectedDevices }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
+      const response = await request.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
       setData(response.data.data);
     } catch (error) {
       console.error(error);

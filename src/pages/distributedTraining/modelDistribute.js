@@ -1,7 +1,7 @@
 import React, { useState ,useEffect} from 'react';
 import { Divider, Radio, Table,ConfigProvider } from 'antd';
 import styled from 'styled-components';
-import axios from 'axios';
+import request from '../../config/request';
 
 
 const columns = [
@@ -47,13 +47,13 @@ const ModelDistribute = ({ setSelectedTasks }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/task', {
+      const response = await request.get('/api/task', {
         params: {
           page_num: 1,
           page_size: 100,
         },
       });
-      const response_1 = await axios.get('/api/model/model-list');
+      const response_1 = await request.get('/api/model/model-list');
       const taskList = response.data.data['task_list'];
       const taskDataWithKeys = taskList.map((task, index) => {
         const modelName = response_1.data.data.find((model) => model.id === task.model_id)?.name;

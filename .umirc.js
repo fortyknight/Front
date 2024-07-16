@@ -50,14 +50,14 @@ export default {
   chainWebpack(config) {
     // 修改 CSS 输出路径
     config.plugin('extract-css').tap(args => {
-      args[0].filename = 'static/css/[name].[contenthash:8].css';
-      args[0].chunkFilename = 'static/css/[name].[contenthash:8].chunk.css';
+      args[0].filename = 'static/css/[name].[hash:8].css';
+      args[0].chunkFilename = 'static/css/[name].[hash:8].chunk.css';
       return args;
     });
 
     // 修改 JS 输出路径
     config.output
-      .filename('static/js/[name].[contenthash:8].js')
-      .chunkFilename('static/js/[name].[contenthash:8].chunk.js');
+      .filename('static/js/[name].[hash:8].js')
+      .chunkFilename('static/js/[name].[hash:8].chunk.js');
   }
 }
