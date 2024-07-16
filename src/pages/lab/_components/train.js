@@ -11,7 +11,7 @@ import { makeToolTipFromMsgId } from '@/utils/util';
 import { showNotification } from '@/utils/notice';
 import { setLabel } from 'echarts/src/chart/bar/helper';
 import { PartitionStrategy, PartitionClass, FeatureType } from '@/pages/common/appConst';
-import axios from 'axios';
+import request from "@/config/request";
 
 
 const { Option } = Select;
@@ -88,7 +88,7 @@ const Train = ({ train: { labelName }, dispatch, location: { query: { datasetNam
 
 const fetchData = async (modelId) => {
     try {
-      const response_1 = await axios.get('/api/model/param', {
+      const response_1 = await request.get('/api/model/param', {
         params: {
             model_id: modelId,
         },

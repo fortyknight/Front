@@ -2,7 +2,7 @@ import { Space, Table, Tag } from 'antd';
 import { withRouter } from 'umi';
 import React from 'react';
 import  { useEffect, useState } from 'react';
-import axios from 'axios'
+import request from "@/config/request";
 
 const ExperimentList = () => {
   const [data, setData] = useState([]);
@@ -10,7 +10,7 @@ const ExperimentList = () => {
   
     try {
       // 向后端发送请求以更改设备状态
-      const response = await axios.post('/api/device/updateDeviceState', {
+      const response = await request.post('/api/device/updateDeviceState', {
         device_id: record.id,
       });
 
@@ -40,7 +40,7 @@ const handleDelete = async (record) => {
   
   try {
     // 向后端发送请求以更改设备状态
-    const response = await axios.post('api/device/deleteDeviceState', {
+    const response = await request.post('api/device/deleteDeviceState', {
       id: record.id,
     });
     const updatedData = data.filter((item) => item.id !== record.id); // 根据删除的设备ID过滤数据
@@ -112,7 +112,7 @@ const columns = [
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/device'); // 根据你的后端 API 路由进行相应的修改
+      const response = await request.get('/api/device'); // 根据你的后端 API 路由进行相应的修改
       setData(response.data.data);
     } catch (error) {
       console.error(error);

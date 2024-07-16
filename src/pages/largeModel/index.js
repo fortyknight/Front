@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Layout, Input, Button, List, Avatar, Menu, Card } from 'antd';
 import styles from './index.less';
 
-import axios from 'axios';
+import request from "@/config/request";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { TextArea } = Input;
@@ -31,24 +31,24 @@ const LargeModel = () => {
 
   const fetchData = async () => {
     try {
-      const response_1 = await axios.get('/api/llm/sandwich/intro');
-      const response_2 = await axios.get('/api/llm/sweep/intro');
-      const response_3 = await axios.get('/api/llm/sandwich/prompt', {
+      const response_1 = await request.get('/api/llm/sandwich/intro');
+      const response_2 = await request.get('/api/llm/sweep/intro');
+      const response_3 = await request.get('/api/llm/sandwich/prompt', {
         params: {
           agent_name: 'Dave',
         },
       });
-      const response_4 = await axios.get('/api/llm/sandwich/prompt', {
+      const response_4 = await request.get('/api/llm/sandwich/prompt', {
         params: {
           agent_name: 'Chad',
         },
       });
-      const response_5 = await axios.get('/api/llm/sweep/prompt', {
+      const response_5 = await request.get('/api/llm/sweep/prompt', {
         params: {
           agent_name: 'Alice',
         },
       });
-      const response_6 = await axios.get('/api/llm/sweep/prompt', {
+      const response_6 = await request.get('/api/llm/sweep/prompt', {
         params: {
           agent_name: 'Bob',
         },
@@ -72,24 +72,24 @@ const LargeModel = () => {
 
 
       const response = chatImage === 1
-        ? await axios.get('/api/llm/sandwich/query', {
+        ? await request.get('/api/llm/sandwich/query', {
           params: {
             agent_name: 'Dave',
           },
         })
         : chatImage === 2
-          ? await axios.get('/api/llm/sandwich/query', {
+          ? await request.get('/api/llm/sandwich/query', {
             params: {
               agent_name: 'Chad',
             },
           })
           : chatImage === 3
-            ? await axios.get('/api/llm/sweep/query', {
+            ? await request.get('/api/llm/sweep/query', {
               params: {
                 agent_name: 'Alice',
               },
             })
-            : await axios.get('/api/llm/sandwich/query', {
+            : await request.get('/api/llm/sandwich/query', {
               params: {
                 agent_name: 'Bob',
               },

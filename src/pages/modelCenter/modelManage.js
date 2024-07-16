@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Col, Row } from 'antd';
 import { Input, Button, Drawer, Dropdown, Avatar, Skeleton } from 'antd';
 import { DatePicker, Form, Select, Space } from 'antd';
-import axios from 'axios';
+import request from "@/config/request";
 import styles from './index.less'
 
 import {
@@ -61,7 +61,7 @@ const ModelManage = () => {
 
     const fetchData = async () => {
         try {
-            const response_1 = await axios.get('/api/model/model-list');
+            const response_1 = await request.get('/api/model/model-list');
             setData(response_1.data.data);
 
         } catch (error) {
@@ -78,12 +78,12 @@ const ModelManage = () => {
         setCpu(record.cpu);
         setMemory(record.memory);
         setType(record.type);
-        const response_1 = await axios.get('/api/model/param', {
+        const response_1 = await request.get('/api/model/param', {
             params: {
                 model_id: record.id,
             },
         });
-        const response_2 = await axios.get('/api/dataset');
+        const response_2 = await request.get('/api/dataset');
 
         setModelParams(response_1.data.data.params);
         setDataset(response_2.data.data['datasets'])
@@ -104,7 +104,7 @@ const ModelManage = () => {
             task_name: values.name,
             model_param_list,
         };
-        axios.post('/api/task', taskValues) // 将数据提交到后端
+        request.post('/api/task', taskValues) // 将数据提交到后端
         .then((response) => {
           onClose(); // 关闭抽屉
         })

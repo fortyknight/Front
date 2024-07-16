@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Space } from 'antd';
-import axios from 'axios';
+import request from "@/config/request";
 const { Option } = Select;
 
 const AddData = () => {
@@ -18,7 +18,8 @@ const AddData = () => {
  
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/device'); // 根据你的后端 API 路由进行相应的修改
+      const response = await request.get('/api/device'); // 根据你的后端 API 路由进行相应的修改
+      console.log(response);
       setData(response.data.data);
     } catch (error) {
       console.error(error);
@@ -38,7 +39,7 @@ const AddData = () => {
     };
     console.log('value',values)
 
-    axios.post('/api/internet', updatedValues) // 将数据提交到后端
+    request.post('/api/internet', updatedValues) // 将数据提交到后端
       .then((response) => {
         console.log(response.data);
         form.resetFields(); // 提交成功后重置表单

@@ -1,7 +1,7 @@
 import { withRouter } from 'umi';
 import React, { useState, useEffect } from 'react';
 import { Table } from 'antd';
-import axios from 'axios';
+import request from "@/config/request";
 import { Badge, Dropdown, Space } from 'antd';
 
 const columns = [
@@ -48,13 +48,13 @@ const ModelTrain = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/task', {
+      const response = await request.get('/api/task', {
         params: {
           page_num: 1,
           page_size: 100,
         },
       });
-      const response_1 = await axios.get('/api/model/model-list');
+      const response_1 = await request.get('/api/model/model-list');
 
       setModelData(response_1.data.data);
       const taskList = response.data.data['task_list'];

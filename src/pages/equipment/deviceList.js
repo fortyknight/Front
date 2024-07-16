@@ -2,7 +2,7 @@ import { Space, Table, Tag } from 'antd';
 import { withRouter } from 'umi';
 import React from 'react';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import request from "@/config/request";
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, DatePicker, Drawer, Form, Input, Row, Select, notification} from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
@@ -22,7 +22,7 @@ const DeviceList = () => {
   //   // try {
   //   //   axios.post('http://localhost:8001/postTrain');
 
-  //   //   const response = await axios.get('/api/internet/connect', {
+  //   //   const response = await request.get('/api/internet/connect', {
   //   //     params: {
   //   //       ...values,
   //   //       host: storedRecord.address,
@@ -41,7 +41,7 @@ const DeviceList = () => {
   //   //   console.error('上传失败:', error);
   //   //   alert('上传失败');
   //   // }
-  //   const response = await axios.post('http://localhost:8001/api/internet/changestate', {
+  //   const response = await request.post('http://localhost:8001/api/internet/changestate', {
   //     id: record.id,
   //     type: true,
   //   });
@@ -73,7 +73,7 @@ const DeviceList = () => {
       type: true,
       internet_ip:internetData.address
     };
-    axios.post('/api/internet/changestate', updatedValues) // 将数据提交到后端
+    request.post('/api/internet/changestate', updatedValues) // 将数据提交到后端
     .then((response) => {
       console.log(response.data);
       onClose(); // 关闭抽屉
@@ -105,7 +105,7 @@ const DeviceList = () => {
   const deleteInternet = async (record) => {
     try {
       // 向后端发送请求以更改设备状态
-      const response = await axios.post('api/device/deleteDeviceState', {
+      const response = await request.post('api/device/deleteDeviceState', {
         id: record.id,
       });
       const updatedData = data.filter((item) => item.id !== record.id); // 根据删除的设备ID过滤数据
@@ -117,14 +117,14 @@ const DeviceList = () => {
   const handleConnect = async (record) => {
     try {
       // 向后端发送请求以更改设备状态
-      const response = axios.post('http://localhost:8000/postModel');
-      const response2 = await axios.get('/api/internet/connect', {
+      const response = request.post('http://localhost:8000/postModel');
+      const response2 = await request.get('/api/internet/connect', {
         params: {
           host: record.address
         }
       });
       if (response2.data.data.message !== 11001) {
-        const response3 = axios.post('http://localhost:8000/api/internet/changestate', {
+        const response3 = request.post('http://localhost:8000/api/internet/changestate', {
           id: record.id,
           type: true
         });
@@ -164,7 +164,7 @@ const DeviceList = () => {
       return item;
     });
     setData(updatedData);
-    const response4 = await axios.post('/api/internet/changestate', {
+    const response4 = await request.post('/api/internet/changestate', {
       id: record.id,
       type: false
     });
@@ -261,7 +261,7 @@ const DeviceList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
+      const response = await request.get('/api/internet'); // 根据你的后端 API 路由进行相应的修改
       setData(response.data.data);
     } catch (error) {
       console.error(error);
