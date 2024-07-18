@@ -27,7 +27,7 @@ export function getTempDataPreview(params) {
 
 // 文件上传成功后数据探查
 export function getTempDateRetrieve(params) {
-  return request.get(`api/dataset/${params['temporary_dataset_name']}`);
+  return request.get(`/api/dataset/${params['temporary_dataset_name']}`);
 }
 
 // 检测文件路径
@@ -50,42 +50,42 @@ export function getDataRetrieve(datasetName) {
   const param = {
     n_top_value: 10
   };
-  return request.get(`api/dataset/${datasetName}`, param);
+  return request.get(`/api/dataset/${datasetName}`, param);
 }
 
 // 任务类型推断
 export function interTaskType(datasetName, target) {
-  return request.post(`api/dataset/${datasetName}/infer-task-type`, { feature_name: target, });
+  return request.post(`/api/dataset/${datasetName}/infer-task-type`, { feature_name: target, });
 }
 
 // 模型训练
 export function train(params) {
-  return request.post(`api/dataset/${params['datasetName']}/feature-series/default/train-job`, params['param']);
+  return request.post(`/api/dataset/${params['datasetName']}/feature-series/default/train-job`, params['param']);
 }
 
 // 模型训练自动选取参数
 export function getRecommendConfig(datasetName, target_col) {
-  return request.post(`api/dataset/${datasetName}/feature-series/default/recommend-train-conf`, { target_col: target_col })
+  return request.post(`/api/dataset/${datasetName}/feature-series/default/recommend-train-conf`, { target_col: target_col })
 }
 
 // 模型中心
 export function getTrainingList(datasetName) {
-  return request.get(`api/dataset/${datasetName}/feature-series/default/train-job`);
+  return request.get(`/api/dataset/${datasetName}/feature-series/default/train-job`);
 }
 
 // 模型中心 -- 性能
 export function getModelDetail(params) {
-  return request.get(`api/dataset/${params['datasetName']}/feature-series/default/model/${params['modelName']}`);
+  return request.get(`/api/dataset/${params['datasetName']}/feature-series/default/model/${params['modelName']}`);
 }
 
 // 模型中心 -- 获取预测name
 export function batchPredict(datasetName, modelName, reqParams) {
-  return request.post(`api/dataset/${datasetName}/feature-series/default/model/${modelName}/batch-predict-job`, reqParams);
+  return request.post(`/api/dataset/${datasetName}/feature-series/default/model/${modelName}/batch-predict-job`, reqParams);
 }
 
 // 模型中心 -- 轮询预测状态
 export function getPredictJob(datasetName, modelName, batch_predict_job_name) {
-  return request.get(`api/dataset/${datasetName}/feature-series/default/model/${modelName}/batch-predict-job/${batch_predict_job_name}`);
+  return request.get(`/api/dataset/${datasetName}/feature-series/default/model/${modelName}/batch-predict-job/${batch_predict_job_name}`);
 }
 
 
