@@ -64,8 +64,9 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export function request(url, options, checkResponseCode) {
+  url = 'http://localhost:8000' + url;
   const defaultOptions = {
-    credentials: 'include',
+    // credentials: 'include',
   };
   // const loadingId = options && options.body && options.body.loadingId;
   const newOptions = { ...defaultOptions, ...options };
